@@ -117,7 +117,7 @@ export default class DynamodbService {
       ScanIndexForward: sort === "1",
     };
 
-    const result = this.dynamodb.query(query).promise();
+    const result = await this.dynamodb.query(query).promise();
 
     logger.writeLogger(
       "DynamodbService.getRequests",
