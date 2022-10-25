@@ -114,7 +114,7 @@ export default class DynamodbService {
       ExpressionAttributeValues: {
         ":username": username,
       },
-      ScanIndexForward: sort === "1",
+      ScanIndexForward: sort === SortBy.asc,
     };
 
     const result = await this.dynamodb.query(query).promise();
