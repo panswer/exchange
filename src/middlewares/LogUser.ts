@@ -14,28 +14,37 @@ export const LogUser = {
    * @returns {Promise<void>}
    */
   before: async (request: MiddlewareInterface): Promise<void> => {
-    const logger = Logger.getInstance();
+    if (process.env.TEST_ON !== "1") {
+      const logger = Logger.getInstance();
+      const username: string =
+        request.event.requestContext.authorizer?.claims?.username;
+      
+      if (!username) {
+        throw new Error("Unauthoriced");
+      }
+      const cognito = CognitoService.getInstance();
 
-    const username: string =
-      request.event.requestContext.authorizer?.claims?.username;
+      const userCognito = await cognito.getUser(username);
 
-    if (!username) {
-      throw new Error("Unauthoriced");
+      let attributeEmail = userCognito
+        .UserAttributes!.filter(
+          (attribute) => attribute.Name === UserAttributesEnum.EMAIL
+        )
+        .pop();
+
+      logger.writeLogger(
+        request.context.functionName,
+        LoggerLevel.info,
+        "User on session",
+        { email: attributeEmail!.Value }
+      );
+    } else {
+      request.event.requestContext.authorizer = {
+        ...request.event.requestContext.authorizer,
+        claims: {
+          username: "test",
+        },
+      };
     }
-
-    const cognito = CognitoService.getInstance();
-
-    const userCognito = await cognito.getUser(username);
-
-    let attributeEmail = userCognito.UserAttributes!.filter(
-      (attribute) => attribute.Name === UserAttributesEnum.EMAIL
-    ).pop();
-
-    logger.writeLogger(
-      request.context.functionName,
-      LoggerLevel.info,
-      "User on session",
-      { email: attributeEmail!.Value }
-    );
   },
 };

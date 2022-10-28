@@ -11,17 +11,20 @@ import Logger from "../utils/Logger";
 import { SortBy } from "../enums/DynamoDBSortEnum";
 
 export default class DynamodbService {
-  private static dynamodbInstance: DynamodbService;
+  private static dynamodbInstance?: DynamodbService;
 
   private readonly DYNAMO_DB_TABLE_NAME: string =
     process.env.currencyRequestTableName!;
-
   private readonly DYNAMO_DB_TABLE_CURRENCY_USER_REQUEST_INDEX =
     process.env.currencyRequestTableCurrencyUserRequestIndex!;
+  private readonly REGION: string = process.env.REGION!;
+
   private dynamodb: DocumentClient;
+
   constructor() {
     this.dynamodb = new AWS.DynamoDB.DocumentClient({
       apiVersion: "2012-08-10",
+      region: this.REGION,
     });
   }
 
@@ -31,13 +34,15 @@ export default class DynamodbService {
    * @returns {DynamodbService}
    */
   static getInstance(): DynamodbService {
-    let dynamodbInstance: DynamodbService = this.dynamodbInstance;
-
-    if (!dynamodbInstance) {
-      dynamodbInstance = new DynamodbService();
+    if (!this.dynamodbInstance) {
+      this.dynamodbInstance = new DynamodbService();
     }
 
-    return dynamodbInstance;
+    return this.dynamodbInstance;
+  }
+
+  static destroyInstance(): void {
+    delete this.dynamodbInstance;
   }
 
   /**

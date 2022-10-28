@@ -13,5 +13,5 @@ export enum LoggerTemplate {
 export enum LoggerStage {
   DEV = "dev",
   STA = "sta",
-  PRE_STA = "sta",
+  PRE_STA = "pre-sta",
 }

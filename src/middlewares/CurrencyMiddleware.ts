@@ -11,12 +11,23 @@ export const CurrencyMiddleware = {
   before: (request: MiddlewareInterface): void => {
     const body: any = request.event.body!;
 
-    const withoutData = ["from", "to", "amount"].filter((key) => {
-      return !Boolean(body[key]) && typeof body[key] === "string";
+    /**
+     * Key string without data and required
+     *
+     * @type {Array<string>}
+     */
+    const withoutStringData = ["from", "to"].filter((key) => {
+      return !Boolean(body[key]) || typeof body[key] !== "string";
     });
 
-    if (withoutData.length > 0) {
-      throw new Error(`${withoutData.join(", ")} without data`);
+    const withoutNumberData = ["amount"].filter((key) => {
+      return !Boolean(body[key]) || body[key] < 0;
+    });
+
+    if (withoutStringData.length > 0 || withoutNumberData.length > 0) {
+      throw new Error(
+        `${withoutStringData.concat(withoutNumberData).join(", ")} without data`
+      );
     }
   },
 };

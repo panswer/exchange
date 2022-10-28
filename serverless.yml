@@ -78,7 +78,7 @@ functions:
             type: COGNITO_USER_POOLS
             arn:
               Fn::GetAtt:
-                - UserPool
+                - ${self:provider.stage}-user-pool
                 - Arn
             claims:
               - email
@@ -96,7 +96,7 @@ functions:
             type: COGNITO_USER_POOLS
             arn:
               Fn::GetAtt:
-                - UserPool
+                - ${self:provider.stage}-user-pool
                 - Arn
             claims:
               - email

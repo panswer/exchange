@@ -1,4 +1,4 @@
-import AWS, { CognitoIdentityServiceProvider } from "aws-sdk";
+import AWS from "aws-sdk";
 import {
   AdminCreateUserRequest,
   AdminCreateUserResponse,
@@ -20,7 +20,7 @@ import Logger from "../utils/Logger";
 
 export default class CognitoService {
   private static cognitoServiceInstance?: CognitoService;
-  private cognitoService: CognitoIdentityServiceProvider;
+  private cognitoService: AWS.CognitoIdentityServiceProvider;
   private readonly COGNITO_USER_POOL_ID: string =
     process.env.COGNITO_USER_POOL_ID!;
   private readonly COGNITO_CLIENT_ID: string = process.env.COGNITO_CLIENT_ID!;
@@ -32,7 +32,7 @@ export default class CognitoService {
       region: this.AWS_REGION,
     });
 
-    this.cognitoService = new CognitoIdentityServiceProvider();
+    this.cognitoService = new AWS.CognitoIdentityServiceProvider();
   }
 
   /**
@@ -70,7 +70,7 @@ export default class CognitoService {
       UserPoolId: this.COGNITO_USER_POOL_ID,
     };
 
-    const user = this.cognitoService.adminGetUser(config).promise();
+    const user = await this.cognitoService.adminGetUser(config).promise();
 
     return user;
   }
@@ -155,22 +155,6 @@ export default class CognitoService {
     const result = await this.cognitoService
       .adminInitiateAuth(config)
       .promise();
-
-    return result;
-  }
-
-  async decodeSessionToken(sessionToken: string): Promise<GetUserResponse> {
-    // const token = sessionToken.split(" ").pop()!;
-
-    // console.log("#".repeat(50));
-    // console.log(token);
-    // console.log("#".repeat(50));
-
-    const config: GetUserRequest = {
-      AccessToken: sessionToken,
-    };
-
-    const result = await this.cognitoService.getUser(config).promise();
 
     return result;
   }

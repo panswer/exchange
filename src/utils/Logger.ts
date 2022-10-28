@@ -63,14 +63,10 @@ export default class Logger {
           info: true,
           warning: true,
         };
+        break;
       case LoggerStage.STA:
         config = {
           debug: true,
-          error: true,
-          info: true,
-        };
-      default:
-        config = {
           error: true,
           info: true,
         };
@@ -80,6 +76,14 @@ export default class Logger {
     return config;
   }
 
+  /**
+   * Request a log in console
+   * 
+   * @param functionName - function name
+   * @param level - log level
+   * @param message - log message
+   * @param data - data for log
+   */
   writeLogger(
     functionName: string,
     level: LoggerLevel,
@@ -87,10 +91,25 @@ export default class Logger {
     data?: object
   ) {
     if (this.showLogs.includes(level)) {
-      this.showLog(functionName, new Date().toUTCString(), level, message, data);
+      this.showLog(
+        functionName,
+        new Date().toUTCString(),
+        level,
+        message,
+        data
+      );
     }
   }
 
+  /**
+   * Print log
+   * 
+   * @param functionName - function name
+   * @param file - file
+   * @param level - log level
+   * @param message - log message
+   * @param data - log data
+   */
   private showLog(
     functionName: string,
     file: string,
