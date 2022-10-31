@@ -28,8 +28,8 @@ provider:
   stage: ${opt:stage, 'dev'}
 
   environment:
-    user_pool_id: ${Ref:UserPool}
-    client_id: ${Ref:UserClient}
+    COGNITO_USER_POOL_ID: ${Ref:UserPool}
+    COGNITO_CLIENT_ID: ${Ref:UserClient}
     stage: ${self:provider.stage, 'dev'}
     authFlow: ADMIN_USER_PASSWORD_AUTH
     currencyRequestTableName: currencyRequest
