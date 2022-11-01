@@ -28,8 +28,8 @@ provider:
   stage: ${opt:stage, 'dev'}
 
   environment:
-    COGNITO_USER_POOL_ID: ${Ref:UserPool}
-    COGNITO_CLIENT_ID: ${Ref:UserClient}
+    COGNITO_USER_POOL_ID: { Ref: UserPool }
+    COGNITO_CLIENT_ID: { Ref: UserClient }
     stage: ${self:provider.stage, 'dev'}
     authFlow: ADMIN_USER_PASSWORD_AUTH
     currencyRequestTableName: currencyRequest
@@ -164,6 +164,7 @@ resources:
         BillingMode: PAY_PER_REQUEST
 
 plugins:
+  - serverless-ignore
   - serverless-offline-local-authorizers-plugin
   - serverless-offline
   - serverless-esbuild
