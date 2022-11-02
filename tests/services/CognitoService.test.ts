@@ -10,7 +10,7 @@ process.env.authFlow = "123";
 AWSMock.mock(
   "CognitoIdentityServiceProvider",
   "adminGetUser",
-  async (param, callback) => {
+  (param, callback) => {
     callback(undefined, {
       Username: param.Username,
     });
