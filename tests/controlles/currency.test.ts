@@ -79,9 +79,13 @@ describe("Exchange - Basic", () => {
       amount: 2,
     };
 
-    const result = await doRequest(functionName, { body });
+    // const result = await doRequest(functionName, { body });
 
-    expect(result.statusCode).toBe(200);
+    // expect(result.statusCode).toBe(200);
+    await expect(doRequest(functionName, { body })).resolves.toHaveProperty(
+      "statusCode",
+      200
+    );
   });
 
   test("Request without currency from", async () => {
