@@ -45,6 +45,6 @@ describe("Api Layer", () => {
       to: "",
     });
 
-    expect(typeof result).toBe("object");
+    expect(result).toBe({})
   });
 });
