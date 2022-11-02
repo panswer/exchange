@@ -25,7 +25,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Statements</span>
-                <span class='fraction'>135/135</span>
+                <span class='fraction'>130/130</span>
             </div>
         
             
@@ -46,7 +46,7 @@
             <div class='fl pad1y space-right2'>
                 <span class="strong">100% </span>
                 <span class="quiet">Lines</span>
-                <span class='fraction'>135/135</span>
+                <span class='fraction'>130/130</span>
             </div>
         
             
@@ -193,12 +193,11 @@
 <a name='L128'></a><a href='#L128'>128</a>
 <a name='L129'></a><a href='#L129'>129</a>
 <a name='L130'></a><a href='#L130'>130</a>
-<a name='L131'></a><a href='#L131'>131</a>
-<a name='L132'></a><a href='#L132'>132</a>
-<a name='L133'></a><a href='#L133'>133</a>
-<a name='L134'></a><a href='#L134'>134</a>
-<a name='L135'></a><a href='#L135'>135</a>
-<a name='L136'></a><a href='#L136'>136</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<a name='L131'></a><a href='#L131'>131</a></td><td class="line-coverage quiet"><span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
 <span class="cline-any cline-yes">1x</span>
@@ -285,11 +284,7 @@
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">22x</span>
-<span class="cline-any cline-yes">22x</span>
-<span class="cline-any cline-yes">22x</span>
-<span class="cline-any cline-yes">22x</span>
-<span class="cline-any cline-yes">22x</span>
+<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">22x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -311,12 +306,7 @@
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">11x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
-<span class="cline-any cline-yes">4x</span>
+<span class="cline-any cline-yes">11x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
 <span class="cline-any cline-yes">4x</span>
@@ -338,7 +328,11 @@
   LoggerTemplate,
   LoggerStage,
 } from "../enums/LoggerLevelEnum";
-import { LoggerParam } from "../interfaces/LoggerParamsInterface";
+import {
+  LoggerParam,
+  WriteLoggerParam,
+  ShowLogParam,
+} from "../interfaces/LoggerParamsInterface";
 &nbsp;
 export default class Logger {
   private static loggerInterface?: Logger;
@@ -413,57 +407,48 @@ export default class Logger {
 &nbsp;
   /**
    * Request a log in console
-   * 
-   * @param functionName - function name
-   * @param level - log level
-   * @param message - log message
-   * @param data - data for log
+   *
+   * @param {object} loggerParam - logger parameters
+   * @param {string} loggerParam.functionName - function name
+   * @param {string} loggerParam.level - log level
+   * @param {string} loggerParam.message - log message
+   * @param {object} [loggerParam.data] - data for log
    */
-  writeLogger(
-    functionName: string,
-    level: LoggerLevel,
-    message: string,
-    data?: object
-  ) {
-    if (this.showLogs.includes(level)) {
-      this.showLog(
-        functionName,
-        new Date().toUTCString(),
-        level,
-        message,
-        data
-      );
+  writeLogger(loggerParam: WriteLoggerParam) {
+    if (this.showLogs.includes(loggerParam.level)) {
+      this.showLog({
+        functionName: loggerParam.functionName,
+        time: new Date().toUTCString(),
+        level: loggerParam.level,
+        message: loggerParam.message,
+        data: loggerParam.data,
+      });
     }
   }
 &nbsp;
   /**
    * Print log
-   * 
-   * @param functionName - function name
-   * @param file - file
-   * @param level - log level
-   * @param message - log message
+   *
+   * @param {object} showLogParam - show log's parameters
+   * @param {string} showLogParam.functionName - function name
+   * @param {string} showLogParam.time - time
+   * @param {import('../enums/LoggerLevelEnum').LoggerLevel} showLoglevel - log level
+   * @param {string} message - log message
    * @param data - log data
    */
-  private showLog(
-    functionName: string,
-    file: string,
-    level: LoggerLevel,
-    message: string,
-    data?: object
-  ) {
-    let logTemplate;
+  private showLog(showLogParam: ShowLogParam) {
+    let logTemplate: LoggerTemplate;
 &nbsp;
-    data
+    showLogParam.data
       ? (logTemplate = LoggerTemplate.DEFAULT)
       : (logTemplate = LoggerTemplate.DEFAULT_WITHOUT_DATA);
 &nbsp;
     const logMessage = logTemplate
-      .replace("{level}", level)
-      .replace("{functionName}", functionName)
-      .replace("{file}", file)
-      .replace("{message}", message)
-      .replace("{data}", JSON.stringify(data));
+      .replace("{level}", showLogParam.level)
+      .replace("{functionName}", showLogParam.functionName)
+      .replace("{time}", showLogParam.time)
+      .replace("{message}", showLogParam.message)
+      .replace("{data}", JSON.stringify(showLogParam.data));
 &nbsp;
     console.log(logMessage);
   }
@@ -475,7 +460,7 @@ export default class Logger {
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2022-10-28T21:51:50.932Z
+                at 2022-11-02T17:09:16.622Z
             </div>
         <script src="../prettify.js"></script>
         <script>

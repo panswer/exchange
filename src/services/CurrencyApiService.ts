@@ -52,12 +52,12 @@ export default class CurrencyApiService {
       .replace("{amount}", request.amount.toString());
 
     const url = this.API_LAYER_URL + preparedPath;
-    logger.writeLogger(
-      "getExchangeCurrency",
-      LoggerLevel.debug,
-      "Path to API Layer",
-      { url: preparedPath }
-    );
+    logger.writeLogger({
+      functionName: "getExchangeCurrency",
+      level: LoggerLevel.debug,
+      message: "Path to API Layer",
+      data: { url: preparedPath },
+    });
 
     const response = await axios.get(url, {
       headers: {

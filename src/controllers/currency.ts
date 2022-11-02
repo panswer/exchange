@@ -20,12 +20,12 @@ const lambdaHandler = async (
   context: Context
 ): Promise<APIGatewayProxyResult> => {
   const logger = Logger.getInstance();
-  logger.writeLogger(
-    context.functionName,
-    LoggerLevel.debug,
-    "Start lambda function (currency)",
-    { user: event.requestContext.authorizer!.claims.username }
-  );
+  logger.writeLogger({
+    functionName: context.functionName,
+    level: LoggerLevel.debug,
+    message: "Start lambda function (currency)",
+    data: { user: event.requestContext.authorizer!.claims.username },
+  });
   const request = event.body;
 
   const currencyApiService = CurrencyApiService.getInstance();
@@ -43,41 +43,41 @@ const lambdaHandler = async (
       username: event.requestContext.authorizer!.claims.username,
     })
     .then((res) => {
-      logger.writeLogger(
-        context.functionName,
-        LoggerLevel.info,
-        "Currency status successful",
-        {
+      logger.writeLogger({
+        functionName: context.functionName,
+        level: LoggerLevel.info,
+        message: "Currency status successful",
+        data: {
           currencyFrom: amounts.query.from,
           currencyTo: amounts.query.to,
           amount: amounts.query.amount,
           total: amounts.result,
           username: event.requestContext.authorizer!.claims.username,
-        }
-      );
+        },
+      });
     })
     .catch((err) => {
-      logger.writeLogger(
-        context.functionName,
-        LoggerLevel.info,
-        "Currency status failed",
-        {
+      logger.writeLogger({
+        functionName: context.functionName,
+        level: LoggerLevel.info,
+        message: "Currency status failed",
+        data: {
           currencyFrom: amounts.query.from,
           currencyTo: amounts.query.to,
           amount: amounts.query.amount,
           total: amounts.result,
           message: err.message,
           username: event.requestContext.authorizer!.claims.username,
-        }
-      );
+        },
+      });
     });
 
-  logger.writeLogger(
-    context.functionName,
-    LoggerLevel.debug,
-    "Finished lambda function (currency)",
-    event.body
-  );
+  logger.writeLogger({
+    functionName: context.functionName,
+    level: LoggerLevel.debug,
+    message: "Finished lambda function (currency)",
+    data: event.body,
+  });
   return {
     statusCode: 200,
     body: JSON.stringify({

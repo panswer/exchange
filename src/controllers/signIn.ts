@@ -18,12 +18,12 @@ const lambdaHandler = async (
 ): Promise<APIGatewayProxyResult> => {
   const logger = Logger.getInstance();
 
-  logger.writeLogger(
-    context.functionName,
-    LoggerLevel.debug,
-    "Init lambda function",
-    { user: event.body.email }
-  );
+  logger.writeLogger({
+    functionName: context.functionName,
+    level: LoggerLevel.debug,
+    message: "Init lambda function",
+    data: { user: event.body.email },
+  });
   const cognitoService = CognitoService.getInstance();
 
   const result = await cognitoService.getSessionToken(
@@ -31,12 +31,12 @@ const lambdaHandler = async (
     event.body.password
   );
 
-  logger.writeLogger(
-    context.functionName,
-    LoggerLevel.debug,
-    "Finished the lambda function (sign in)",
-    { user: event.body.email }
-  );
+  logger.writeLogger({
+    functionName: context.functionName,
+    level: LoggerLevel.debug,
+    message: "Finished the lambda function (sign in)",
+    data: { user: event.body.email },
+  });
 
   return {
     statusCode: 202,

@@ -99,16 +99,16 @@ export default class DynamodbService {
   ): Promise<QueryOutput> {
     const logger = Logger.getInstance();
 
-    logger.writeLogger(
-      "DynamodbService.getRequests",
-      LoggerLevel.debug,
-      "Start request",
-      {
+    logger.writeLogger({
+      functionName: "DynamodbService.getRequests",
+      level: LoggerLevel.debug,
+      message: "Start request",
+      data: {
         username,
         table: this.DYNAMO_DB_TABLE_NAME,
         index: this.DYNAMO_DB_TABLE_CURRENCY_USER_REQUEST_INDEX,
-      }
-    );
+      },
+    });
 
     const query: AWS.DynamoDB.DocumentClient.QueryInput = {
       TableName: this.DYNAMO_DB_TABLE_NAME,
@@ -125,12 +125,12 @@ export default class DynamodbService {
 
     const result = await this.dynamodb.query(query).promise();
 
-    logger.writeLogger(
-      "DynamodbService.getRequests",
-      LoggerLevel.debug,
-      "query result",
-      result
-    );
+    logger.writeLogger({
+      functionName: "DynamodbService.getRequests",
+      level: LoggerLevel.debug,
+      message: "query result",
+      data: result,
+    });
     return result;
   }
 }

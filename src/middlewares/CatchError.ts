@@ -15,18 +15,18 @@ export const CatchError = {
       const logger = Logger.getInstance();
 
       if (request.event.body) {
-        logger.writeLogger(
-          request.context.functionName,
-          LoggerLevel.error,
-          request.error?.message,
-          { data: request.event.body }
-        );
+        logger.writeLogger({
+          functionName: request.context.functionName,
+          level: LoggerLevel.error,
+          message: request.error?.message,
+          data: { data: request.event.body },
+        });
       } else {
-        logger.writeLogger(
-          request.context.functionName,
-          LoggerLevel.error,
-          request.error.message
-        );
+        logger.writeLogger({
+          functionName: request.context.functionName,
+          level: LoggerLevel.error,
+          message: request.error.message,
+        });
       }
 
       request.response = {

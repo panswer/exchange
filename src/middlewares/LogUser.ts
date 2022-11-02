@@ -18,7 +18,7 @@ export const LogUser = {
       const logger = Logger.getInstance();
       const username: string =
         request.event.requestContext.authorizer?.claims?.username;
-      
+
       if (!username) {
         throw new Error("Unauthoriced");
       }
@@ -32,12 +32,12 @@ export const LogUser = {
         )
         .pop();
 
-      logger.writeLogger(
-        request.context.functionName,
-        LoggerLevel.info,
-        "User on session",
-        { email: attributeEmail!.Value }
-      );
+      logger.writeLogger({
+        functionName: request.context.functionName,
+        level: LoggerLevel.info,
+        message: "User on session",
+        data: { email: attributeEmail!.Value },
+      });
     } else {
       request.event.requestContext.authorizer = {
         ...request.event.requestContext.authorizer,

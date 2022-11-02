@@ -6,9 +6,10 @@ export enum LoggerLevel {
 }
 
 export enum LoggerTemplate {
-  DEFAULT = "[{level}] : {functionName}({file})\n\t{message}\n\n\t{data}",
-  DEFAULT_WITHOUT_DATA = "[{level}] : {functionName}({file})\n\t{message}",
+  DEFAULT = "[{level}] : {functionName}({time})\n\t{message}\n\n\t{data}",
+  DEFAULT_WITHOUT_DATA = "[{level}] : {functionName}({time})\n\t{message}",
 }
+
 
 export enum LoggerStage {
   DEV = "dev",

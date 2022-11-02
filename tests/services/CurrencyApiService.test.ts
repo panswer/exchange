@@ -1,4 +1,3 @@
-import axios from "axios";
 import CurrencyApiService from "../../src/services/CurrencyApiService";
 
 process.env.API_LAYER_KEY = "123";
@@ -44,7 +43,11 @@ describe("Api Layer", () => {
       from: "",
       to: "",
     });
+    console.log("#");
+    console.log(result);
 
-    expect(result).toBe({})
+    console.log("#");
+
+    expect(result).toStrictEqual({});
   });
 });

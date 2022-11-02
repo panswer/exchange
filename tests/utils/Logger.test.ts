@@ -31,7 +31,11 @@ describe("Logger methods", () => {
     let hasError = false;
 
     try {
-      logger.writeLogger("test", LoggerLevel.info, 'logger - dev');
+      logger.writeLogger({
+        functionName: "test",
+        level: LoggerLevel.info,
+        message: "logger - dev",
+      });
     } catch (error) {
       hasError = true;
     }
@@ -46,7 +50,11 @@ describe("Logger methods", () => {
 
     let hasError = false;
     try {
-      logger.writeLogger("test", LoggerLevel.info, 'logger - pre sta');
+      logger.writeLogger({
+        functionName: "test",
+        level: LoggerLevel.info,
+        message: "logger - pre sta",
+      });
     } catch (error) {
       hasError = true;
     }
@@ -62,7 +70,11 @@ describe("Logger methods", () => {
     let hasError = false;
 
     try {
-      logger.writeLogger("test", LoggerLevel.info, "logger - sta");
+      logger.writeLogger({
+        functionName: "test",
+        level: LoggerLevel.info,
+        message: "logger - sta",
+      });
     } catch (error) {
       hasError = true;
     }
@@ -76,8 +88,13 @@ describe("Logger methods", () => {
     let hasError = false;
 
     try {
-      logger.writeLogger("test", LoggerLevel.info, "logger - with info", {
-        info: process.env.stage,
+      logger.writeLogger({
+        functionName: "test",
+        level: LoggerLevel.info,
+        message: "logger - with info",
+        data: {
+          info: process.env.stage,
+        },
       });
     } catch (error) {
       hasError = true;

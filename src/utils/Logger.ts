@@ -3,7 +3,11 @@ import {
   LoggerTemplate,
   LoggerStage,
 } from "../enums/LoggerLevelEnum";
-import { LoggerParam } from "../interfaces/LoggerParamsInterface";
+import {
+  LoggerParam,
+  WriteLoggerParam,
+  ShowLogParam,
+} from "../interfaces/LoggerParamsInterface";
 
 export default class Logger {
   private static loggerInterface?: Logger;
@@ -78,57 +82,48 @@ export default class Logger {
 
   /**
    * Request a log in console
-   * 
-   * @param functionName - function name
-   * @param level - log level
-   * @param message - log message
-   * @param data - data for log
+   *
+   * @param {object} loggerParam - logger parameters
+   * @param {string} loggerParam.functionName - function name
+   * @param {string} loggerParam.level - log level
+   * @param {string} loggerParam.message - log message
+   * @param {object} [loggerParam.data] - data for log
    */
-  writeLogger(
-    functionName: string,
-    level: LoggerLevel,
-    message: string,
-    data?: object
-  ) {
-    if (this.showLogs.includes(level)) {
-      this.showLog(
-        functionName,
-        new Date().toUTCString(),
-        level,
-        message,
-        data
-      );
+  writeLogger(loggerParam: WriteLoggerParam) {
+    if (this.showLogs.includes(loggerParam.level)) {
+      this.showLog({
+        functionName: loggerParam.functionName,
+        time: new Date().toUTCString(),
+        level: loggerParam.level,
+        message: loggerParam.message,
+        data: loggerParam.data,
+      });
     }
   }
 
   /**
    * Print log
-   * 
-   * @param functionName - function name
-   * @param file - file
-   * @param level - log level
-   * @param message - log message
+   *
+   * @param {object} showLogParam - show log's parameters
+   * @param {string} showLogParam.functionName - function name
+   * @param {string} showLogParam.time - time
+   * @param {import('../enums/LoggerLevelEnum').LoggerLevel} showLoglevel - log level
+   * @param {string} message - log message
    * @param data - log data
    */
-  private showLog(
-    functionName: string,
-    file: string,
-    level: LoggerLevel,
-    message: string,
-    data?: object
-  ) {
-    let logTemplate;
+  private showLog(showLogParam: ShowLogParam) {
+    let logTemplate: LoggerTemplate;
 
-    data
+    showLogParam.data
       ? (logTemplate = LoggerTemplate.DEFAULT)
       : (logTemplate = LoggerTemplate.DEFAULT_WITHOUT_DATA);
 
     const logMessage = logTemplate
-      .replace("{level}", level)
-      .replace("{functionName}", functionName)
-      .replace("{file}", file)
-      .replace("{message}", message)
-      .replace("{data}", JSON.stringify(data));
+      .replace("{level}", showLogParam.level)
+      .replace("{functionName}", showLogParam.functionName)
+      .replace("{time}", showLogParam.time)
+      .replace("{message}", showLogParam.message)
+      .replace("{data}", JSON.stringify(showLogParam.data));
 
     console.log(logMessage);
   }
