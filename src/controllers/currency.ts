@@ -35,14 +35,13 @@ const lambdaHandler = async (
   const dynamodbService = DynamodbService.getInstance();
 
   dynamodbService
-    .saveRequest(
-      event.body.to,
-      event.body.from,
-      amounts.query.amount,
-      new Date(),
-      amounts.result,
-      event.requestContext.authorizer!.claims.username
-    )
+    .saveRequest({
+      currencyTo: event.body.to,
+      currencyFrom: event.body.from,
+      amount: amounts.query.amount,
+      amountResult: amounts.result,
+      username: event.requestContext.authorizer!.claims.username,
+    })
     .then((res) => {
       logger.writeLogger(
         context.functionName,

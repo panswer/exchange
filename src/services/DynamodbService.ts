@@ -6,7 +6,10 @@ import {
 } from "aws-sdk/clients/dynamodb";
 import { v4 as getCurrencyRequestId } from "uuid";
 import { LoggerLevel } from "../enums/LoggerLevelEnum";
-import { NewCurrencyRequest } from "../interfaces/DynamodbService";
+import {
+  NewCurrencyRequest,
+  CurrencyRequest,
+} from "../interfaces/DynamodbService";
 import Logger from "../utils/Logger";
 import { SortBy } from "../enums/DynamoDBSortEnum";
 
@@ -48,40 +51,38 @@ export default class DynamodbService {
   /**
    * Parse amount from a currency to other currency
    *
-   * @param currencyTo - The currency to
-   * @param currencyFrom - The currency from
-   * @param amount - amount to change
-   * @param createdAt - when was the request
-   * @param amountResult - total result
+   * @param {object} currencyRequestParam - currency parameters
+   * @param {string} currencyRequestParam.currencyTo - The currency to
+   * @param {string} currencyRequestParam.currencyFrom - The currency from
+   * @param {number} currencyRequestParam.amount - amount to change
+   * @param {Date} [currencyRequestParam.createdAt] - when was the request
+   * @param {number} currencyRequestParam.amountResult - total result
    *
    * @returns {Promise<PutItemOutput>}
    */
   async saveRequest(
-    currencyTo: string,
-    currencyFrom: string,
-    amount: number,
-    createdAt: Date = new Date(),
-    amountResult: number,
-    username: string
+    currencyRequestParam: CurrencyRequest
   ): Promise<PutItemOutput> {
-    const newCurrencyRequestId: NewCurrencyRequest = {
+    const createdAt = currencyRequestParam.createdAt || new Date();
+
+    const newCurrencyRequest: NewCurrencyRequest = {
       currencyRequestId: getCurrencyRequestId(),
-      currencyFrom,
-      currencyTo,
-      amount,
+      currencyFrom: currencyRequestParam.currencyFrom,
+      currencyTo: currencyRequestParam.currencyTo,
+      amount: currencyRequestParam.amount,
       createdAt: createdAt.getTime(),
-      amountResult,
-      username,
+      amountResult: currencyRequestParam.amountResult,
+      username: currencyRequestParam.username,
     };
 
-    const currencyRequest = await this.dynamodb
+    const currencyRequestDB = await this.dynamodb
       .put({
         TableName: this.DYNAMO_DB_TABLE_NAME,
-        Item: newCurrencyRequestId,
+        Item: newCurrencyRequest,
       })
       .promise();
 
-    return currencyRequest;
+    return currencyRequestDB;
   }
 
   /**
