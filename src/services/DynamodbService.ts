@@ -4,7 +4,7 @@ import {
   PutItemOutput,
   QueryOutput,
 } from "aws-sdk/clients/dynamodb";
-import { v4 as getCurrencyRequestId } from "uuid";
+// import { v4 as getCurrencyRequestId } from "uuid";
 import { LoggerLevel } from "../enums/LoggerLevelEnum";
 import {
   NewCurrencyRequest,
@@ -61,24 +61,24 @@ export default class DynamodbService {
    * @returns {Promise<PutItemOutput>}
    */
   async saveRequest(
-    currencyRequestParam: CurrencyRequest
+    saveRequestParam: NewCurrencyRequest
   ): Promise<PutItemOutput> {
-    const createdAt = currencyRequestParam.createdAt || new Date();
+    // const createdAt = currencyRequestParam.createdAt || new Date();
 
-    const newCurrencyRequest: NewCurrencyRequest = {
-      currencyRequestId: getCurrencyRequestId(),
-      currencyFrom: currencyRequestParam.currencyFrom,
-      currencyTo: currencyRequestParam.currencyTo,
-      amount: currencyRequestParam.amount,
-      createdAt: createdAt.getTime(),
-      amountResult: currencyRequestParam.amountResult,
-      username: currencyRequestParam.username,
-    };
+    // const newCurrencyRequest: NewCurrencyRequest = {
+    //   currencyRequestId: getCurrencyRequestId(),
+    //   currencyFrom: currencyRequestParam.currencyFrom,
+    //   currencyTo: currencyRequestParam.currencyTo,
+    //   amount: currencyRequestParam.amount,
+    //   createdAt: createdAt.getTime(),
+    //   amountResult: currencyRequestParam.amountResult,
+    //   username: currencyRequestParam.username,
+    // };
 
     const currencyRequestDB = await this.dynamodb
       .put({
         TableName: this.DYNAMO_DB_TABLE_NAME,
-        Item: newCurrencyRequest,
+        Item: saveRequestParam,
       })
       .promise();
 
@@ -93,44 +93,51 @@ export default class DynamodbService {
    *
    * @returns {Promise<PromiseResult<AWS.DynamoDB.DocumentClient.QueryOutput, AWS.AWSError>>}
    */
-  async getRequests(
-    username: string,
-    sort: SortBy = SortBy.asc
+  async doQuery(
+    queryRequest: AWS.DynamoDB.DocumentClient.QueryInput
   ): Promise<QueryOutput> {
-    const logger = Logger.getInstance();
+    // const logger = Logger.getInstance();
 
-    logger.writeLogger({
-      functionName: "DynamodbService.getRequests",
-      level: LoggerLevel.debug,
-      message: "Start request",
-      data: {
-        username,
-        table: this.DYNAMO_DB_TABLE_NAME,
-        index: this.DYNAMO_DB_TABLE_CURRENCY_USER_REQUEST_INDEX,
-      },
-    });
+    // logger.writeLogger({
+    //   functionName: "DynamodbService.getRequests",
+    //   level: LoggerLevel.debug,
+    //   message: "Start request",
+    //   data: {
+    //     username,
+    //     table: this.DYNAMO_DB_TABLE_NAME,
+    //     index: this.DYNAMO_DB_TABLE_CURRENCY_USER_REQUEST_INDEX,
+    //   },
+    // });
 
-    const query: AWS.DynamoDB.DocumentClient.QueryInput = {
-      TableName: this.DYNAMO_DB_TABLE_NAME,
-      IndexName: this.DYNAMO_DB_TABLE_CURRENCY_USER_REQUEST_INDEX,
-      KeyConditionExpression: "#username = :username",
-      ExpressionAttributeNames: {
-        "#username": "username",
-      },
-      ExpressionAttributeValues: {
-        ":username": username,
-      },
-      ScanIndexForward: sort === SortBy.asc,
-    };
+    // const query: AWS.DynamoDB.DocumentClient.QueryInput = {
+    //   TableName: this.DYNAMO_DB_TABLE_NAME,
+    //   IndexName: this.DYNAMO_DB_TABLE_CURRENCY_USER_REQUEST_INDEX,
+    //   KeyConditionExpression: "#username = :username",
+    //   ExpressionAttributeNames: {
+    //     "#username": "username",
+    //   },
+    //   ExpressionAttributeValues: {
+    //     ":username": username,
+    //   },
+    //   ScanIndexForward: sort === SortBy.asc,
+    // };
 
-    const result = await this.dynamodb.query(query).promise();
+    const result = await this.dynamodb.query(queryRequest).promise();
 
-    logger.writeLogger({
-      functionName: "DynamodbService.getRequests",
-      level: LoggerLevel.debug,
-      message: "query result",
-      data: result,
-    });
+    // logger.writeLogger({
+    //   functionName: "DynamodbService.getRequests",
+    //   level: LoggerLevel.debug,
+    //   message: "query result",
+    //   data: result,
+    // });
     return result;
+  }
+
+  getTableNameRequestCurrency(): string {
+    return this.DYNAMO_DB_TABLE_NAME;
+  }
+
+  getIndexUsername(): string {
+    return this.DYNAMO_DB_TABLE_CURRENCY_USER_REQUEST_INDEX;
   }
 }

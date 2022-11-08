@@ -1,6 +1,7 @@
 import { doRequest } from "../../utils/handlerCall";
 import { CurrencyRequestInterface } from "../../src/interfaces/CurrencyRequestInterface";
 import { ApiLayerResponseInterface } from "../../src/interfaces/ApiLayerResponseInterface";
+import { CurrencyRequest } from "../../src/interfaces/DynamodbService";
 
 const functionName = "currency";
 
@@ -32,24 +33,30 @@ const mockGetExchangeCurrency = jest.fn(
     })
 );
 
-const mockSaveRequest = jest.fn(
-  (
+/* 
+
     currencyTo: string,
     currencyFrom: string,
     amount: number,
     createdAt: Date = new Date(),
     amountResult: number,
     username: string
-  ) =>
+
+*/
+const mockSaveCurrencyRequest = jest.fn(
+  (params: CurrencyRequest) =>
     new Promise((resolve, reject) => {
       if (
-        !currencyTo ||
-        !currencyFrom ||
-        (!amount && typeof amount !== "number") ||
-        !createdAt ||
-        !amountResult ||
-        !username
+        !params.currencyTo ||
+        !params.currencyFrom ||
+        (!params.amount && typeof params.amount !== "number") ||
+        !params.amountResult ||
+        !params.username
       ) {
+        console.log("#".repeat(50));
+        console.log(params);
+        console.log("#".repeat(50));
+
         reject(new Error("Test error without any data"));
       } else {
         resolve({});
@@ -65,9 +72,9 @@ jest.mock("../../src/services/CurrencyApiService", () => ({
   }),
 }));
 
-jest.mock("../../src/services/DynamodbService", () => ({
+jest.mock("../../src/models/CurrencyRequestModel", () => ({
   getInstance: () => ({
-    saveRequest: mockSaveRequest,
+    saveCurrencyRequest: mockSaveCurrencyRequest,
   }),
 }));
 
@@ -79,13 +86,24 @@ describe("Exchange - Basic", () => {
       amount: 2,
     };
 
-    // const result = await doRequest(functionName, { body });
+    let result = await doRequest(functionName, {
+      body,
+      requestContext: {
+        authorizer: {
+          claims: { username: "test@mftech.io" },
+        },
+      },
+    });
 
-    // expect(result.statusCode).toBe(200);
-    await expect(doRequest(functionName, { body })).resolves.toHaveProperty(
-      "statusCode",
-      200
-    );
+    expect(result.statusCode).toBe(200);
+    // await expect(
+    //   doRequest(functionName, {
+    //     body,
+    //     requestContext: {
+    //       authorizer: { claims: { username: "test@mftech.io" } },
+    //     },
+    //   })
+    // ).resolves.toHaveProperty("statusCode", 200);
   });
 
   test("Request without currency from", async () => {
@@ -106,10 +124,12 @@ describe("Exchange - Basic", () => {
       amount: 3,
     };
 
-    mockSaveRequest.mockRejectedValueOnce(() => new Error("Test in save"));
+    mockSaveCurrencyRequest.mockRejectedValueOnce(
+      () => new Error("Test in save")
+    );
 
     const result = await doRequest(functionName, { body });
 
-    expect(result.statusCode).toBe(200);
+    expect(result.statusCode).toBe(500);
   });
 });

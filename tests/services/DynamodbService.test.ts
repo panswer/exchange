@@ -1,4 +1,6 @@
 import * as AWSMock from "aws-sdk-mock";
+import { SortBy } from "../../src/enums/DynamoDBSortEnum";
+import { NewCurrencyRequest } from "../../src/interfaces/DynamodbService";
 
 import DynamodbService from "../../src/services/DynamodbService";
 
@@ -41,24 +43,40 @@ describe("Dynamodb Services - Save request", () => {
   });
 
   test("Save a request", async () => {
+    const query: NewCurrencyRequest = {
+      amount: 10,
+      amountResult: 10,
+      createdAt: new Date().getTime(),
+      currencyFrom: "USD",
+      currencyRequestId: "1234",
+      currencyTo: "EUR",
+      username: "test@mftech.io",
+    };
+
     const dynamodbService = DynamodbService.getInstance();
 
-    const result = await dynamodbService.saveRequest(
-      "USD",
-      "EUR",
-      1,
-      new Date(),
-      1,
-      "ricardo@mftech.io"
-    );
+    const result = await dynamodbService.saveRequest(query);
 
     expect(typeof result).toBe("object");
   });
 
   test("Get requests", async () => {
+    const query: AWS.DynamoDB.DocumentClient.QueryInput = {
+      TableName: "123",
+      IndexName: "123",
+      KeyConditionExpression: "#username = :username",
+      ExpressionAttributeNames: {
+        "#username": "username",
+      },
+      ExpressionAttributeValues: {
+        ":username": "test@mftech.io",
+      },
+      ScanIndexForward: true,
+    };
+
     const dynamodbService = DynamodbService.getInstance();
 
-    const result = await dynamodbService.getRequests("ricardo@mftech.io");
+    const result = await dynamodbService.doQuery(query);
 
     expect(typeof result).toBe("object");
   });

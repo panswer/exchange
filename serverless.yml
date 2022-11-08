@@ -24,7 +24,7 @@ useDotenv: true
 
 provider:
   name: aws
-  runtime: nodejs12.x
+  runtime: nodejs14.x
   stage: ${opt:stage, 'dev'}
 
   environment:
@@ -123,17 +123,17 @@ resources:
     UserClient:
       Type: AWS::Cognito::UserPoolClient
       Properties:
-        ClientName: ${self:provider.stage}-user-pool-client
-        UserPoolId: { Ref: UserPool }
-        ExplicitAuthFlows:
-          - ALLOW_ADMIN_USER_PASSWORD_AUTH
-          - ALLOW_CUSTOM_AUTH
-          - ALLOW_USER_PASSWORD_AUTH
-          - ALLOW_USER_SRP_AUTH
-          - ALLOW_REFRESH_TOKEN_AUTH
+        ClientName: user-pool-ui
         GenerateSecret: false
+        UserPoolId: { Ref: UserPool }
         AccessTokenValidity: 5
         IdTokenValidity: 5
+        ExplicitAuthFlows:
+          - "ALLOW_ADMIN_USER_PASSWORD_AUTH"
+          - "ALLOW_CUSTOM_AUTH"
+          - "ALLOW_USER_PASSWORD_AUTH"
+          - "ALLOW_USER_SRP_AUTH"
+          - "ALLOW_REFRESH_TOKEN_AUTH"
 
     CurrencyRequest:
       Type: AWS::DynamoDB::Table

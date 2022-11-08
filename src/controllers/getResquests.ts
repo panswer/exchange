@@ -9,7 +9,8 @@ import { LoggerLevel } from "../enums/LoggerLevelEnum";
 import { LogUser } from "../middlewares/LogUser";
 import CatchError from "../middlewares/CatchError";
 import Logger from "../utils/Logger";
-import DynamodbService from "../services/DynamodbService";
+// import DynamodbService from "../services/DynamodbService";
+import CurrencyRequestModel from "../models/CurrencyRequestModel";
 import { SortBy } from "../enums/DynamoDBSortEnum";
 
 const lambdaHandler = async (
@@ -19,7 +20,8 @@ const lambdaHandler = async (
   const sort =
     event.queryStringParameters?.sort === SortBy.asc ? SortBy.asc : SortBy.desc;
   const logger = Logger.getInstance();
-  const dynamodbService = DynamodbService.getInstance();
+  const currencyRequestModel = CurrencyRequestModel.getInstance();
+  // const dynamodbService = DynamodbService.getInstance();
 
   logger.writeLogger({
     functionName: context.functionName,
@@ -36,10 +38,14 @@ const lambdaHandler = async (
       query: event.queryStringParameters,
     },
   });
-  const result = await dynamodbService.getRequests(
+  const result = await currencyRequestModel.getRequestsByUsername(
     event.requestContext.authorizer!.claims.username,
     sort
   );
+  // const result = await dynamodbService.getRequests(
+  //   event.requestContext.authorizer!.claims.username,
+  //   sort
+  // );
 
   logger.writeLogger({
     functionName: context.functionName,

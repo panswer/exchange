@@ -43,10 +43,6 @@ describe("Api Layer", () => {
       from: "",
       to: "",
     });
-    console.log("#");
-    console.log(result);
-
-    console.log("#");
 
     expect(result).toStrictEqual({});
   });

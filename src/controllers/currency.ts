@@ -13,7 +13,8 @@ import CatchError from "../middlewares/CatchError";
 import validator from "@middy/validator";
 import { LogUser } from "../middlewares/LogUser";
 import { CurrencyMiddleware } from "../middlewares/CurrencyMiddleware";
-import DynamodbService from "../services/DynamodbService";
+// import DynamodbService from "../services/DynamodbService";
+import CurrencyRequestModel from "../models/CurrencyRequestModel";
 
 const lambdaHandler = async (
   event: APIGatewayProxyEvent & CurrencyEventRequestInterface,
@@ -22,7 +23,7 @@ const lambdaHandler = async (
   const logger = Logger.getInstance();
   logger.writeLogger({
     functionName: context.functionName,
-    level: LoggerLevel.debug,
+    level: LoggerLevel.info,
     message: "Start lambda function (currency)",
     data: { user: event.requestContext.authorizer!.claims.username },
   });
@@ -32,49 +33,58 @@ const lambdaHandler = async (
 
   const amounts = await currencyApiService.getExchangeCurrency(request);
 
-  const dynamodbService = DynamodbService.getInstance();
+  const currencyRequestModel = CurrencyRequestModel.getInstance();
 
-  dynamodbService
-    .saveRequest({
-      currencyTo: event.body.to,
-      currencyFrom: event.body.from,
-      amount: amounts.query.amount,
-      amountResult: amounts.result,
-      username: event.requestContext.authorizer!.claims.username,
-    })
-    .then((res) => {
-      logger.writeLogger({
-        functionName: context.functionName,
-        level: LoggerLevel.info,
-        message: "Currency status successful",
-        data: {
-          currencyFrom: amounts.query.from,
-          currencyTo: amounts.query.to,
-          amount: amounts.query.amount,
-          total: amounts.result,
-          username: event.requestContext.authorizer!.claims.username,
-        },
-      });
-    })
-    .catch((err) => {
-      logger.writeLogger({
-        functionName: context.functionName,
-        level: LoggerLevel.info,
-        message: "Currency status failed",
-        data: {
-          currencyFrom: amounts.query.from,
-          currencyTo: amounts.query.to,
-          amount: amounts.query.amount,
-          total: amounts.result,
-          message: err.message,
-          username: event.requestContext.authorizer!.claims.username,
-        },
-      });
-    });
+  await currencyRequestModel.saveCurrencyRequest({
+    amount: event.body.amount,
+    amountResult: amounts.result,
+    currencyFrom: event.body.from,
+    currencyTo: event.body.to,
+    username: event.requestContext.authorizer?.claims.username,
+  });
+  // const dynamodbService = DynamodbService.getInstance();
+
+  // dynamodbService
+  //   .saveRequest({
+  //     currencyTo: event.body.to,
+  //     currencyFrom: event.body.from,
+  //     amount: amounts.query.amount,
+  //     amountResult: amounts.result,
+  //     username: event.requestContext.authorizer!.claims.username,
+  //   })
+  //   .then((res) => {
+  //     logger.writeLogger({
+  //       functionName: context.functionName,
+  //       level: LoggerLevel.info,
+  //       message: "Currency status successful",
+  //       data: {
+  //         currencyFrom: amounts.query.from,
+  //         currencyTo: amounts.query.to,
+  //         amount: amounts.query.amount,
+  //         total: amounts.result,
+  //         username: event.requestContext.authorizer!.claims.username,
+  //       },
+  //     });
+  //   })
+  //   .catch((err) => {
+  //     logger.writeLogger({
+  //       functionName: context.functionName,
+  //       level: LoggerLevel.info,
+  //       message: "Currency status failed",
+  //       data: {
+  //         currencyFrom: amounts.query.from,
+  //         currencyTo: amounts.query.to,
+  //         amount: amounts.query.amount,
+  //         total: amounts.result,
+  //         message: err.message,
+  //         username: event.requestContext.authorizer!.claims.username,
+  //       },
+  //     });
+  //   });
 
   logger.writeLogger({
     functionName: context.functionName,
-    level: LoggerLevel.debug,
+    level: LoggerLevel.info,
     message: "Finished lambda function (currency)",
     data: event.body,
   });
