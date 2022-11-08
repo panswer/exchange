@@ -4,22 +4,13 @@ import {
   PutItemOutput,
   QueryOutput,
 } from "aws-sdk/clients/dynamodb";
-// import { v4 as getCurrencyRequestId } from "uuid";
-import { LoggerLevel } from "../enums/LoggerLevelEnum";
 import {
-  NewCurrencyRequest,
-  CurrencyRequest,
+  NewCurrencyRequestParam,
 } from "../interfaces/DynamodbService";
-import Logger from "../utils/Logger";
-import { SortBy } from "../enums/DynamoDBSortEnum";
 
 export default class DynamodbService {
   private static dynamodbInstance?: DynamodbService;
 
-  private readonly DYNAMO_DB_TABLE_NAME: string =
-    process.env.currencyRequestTableName!;
-  private readonly DYNAMO_DB_TABLE_CURRENCY_USER_REQUEST_INDEX =
-    process.env.currencyRequestTableCurrencyUserRequestIndex!;
   private readonly REGION: string = process.env.REGION!;
 
   private dynamodb: DocumentClient;
@@ -51,17 +42,12 @@ export default class DynamodbService {
   /**
    * Parse amount from a currency to other currency
    *
-   * @param {object} currencyRequestParam - currency parameters
-   * @param {string} currencyRequestParam.currencyTo - The currency to
-   * @param {string} currencyRequestParam.currencyFrom - The currency from
-   * @param {number} currencyRequestParam.amount - amount to change
-   * @param {Date} [currencyRequestParam.createdAt] - when was the request
-   * @param {number} currencyRequestParam.amountResult - total result
+   * @param {NewCurrencyRequestParam} currencyRequestParam - currency parameters
    *
    * @returns {Promise<PutItemOutput>}
    */
-  async saveRequest(
-    saveRequestParam: NewCurrencyRequest
+  async saveItem(
+    saveItemParam: NewCurrencyRequestParam
   ): Promise<PutItemOutput> {
     // const createdAt = currencyRequestParam.createdAt || new Date();
 
@@ -77,8 +63,8 @@ export default class DynamodbService {
 
     const currencyRequestDB = await this.dynamodb
       .put({
-        TableName: this.DYNAMO_DB_TABLE_NAME,
-        Item: saveRequestParam,
+        TableName: saveItemParam.tableName,
+        Item: saveItemParam,
       })
       .promise();
 
@@ -133,11 +119,11 @@ export default class DynamodbService {
     return result;
   }
 
-  getTableNameRequestCurrency(): string {
-    return this.DYNAMO_DB_TABLE_NAME;
-  }
+  // getTableNameRequestCurrency(): string {
+  //   return this.DYNAMO_DB_TABLE_NAME;
+  // }
 
-  getIndexUsername(): string {
-    return this.DYNAMO_DB_TABLE_CURRENCY_USER_REQUEST_INDEX;
-  }
+  // getIndexUsername(): string {
+  //   return this.DYNAMO_DB_TABLE_CURRENCY_USER_REQUEST_INDEX;
+  // }
 }

@@ -1,4 +1,3 @@
-import { result } from "lodash";
 import { runMiddleware } from "../../utils/handlerCall";
 import { MiddlewareResponse } from "../../utils/interfaces/httpRequest";
 

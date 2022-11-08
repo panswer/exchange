@@ -8,15 +8,11 @@ import {
   AdminInitiateAuthResponse,
   AdminSetUserPasswordRequest,
   AdminSetUserPasswordResponse,
-  GetUserRequest,
-  GetUserResponse,
 } from "aws-sdk/clients/cognitoidentityserviceprovider";
 import {
   MessageActionEnum,
   UserAttributesEnum,
 } from "../enums/AuthServiceEnum";
-import { LoggerLevel } from "../enums/LoggerLevelEnum";
-import Logger from "../utils/Logger";
 
 export default class CognitoService {
   private static cognitoServiceInstance?: CognitoService;

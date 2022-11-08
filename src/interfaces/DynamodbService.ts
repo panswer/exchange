@@ -15,3 +15,8 @@ export interface NewCurrencyRequest {
   amountResult: number;
   username: string;
 }
+
+export interface NewCurrencyRequestParam {
+  data: NewCurrencyRequest;
+  tableName: string;
+}

@@ -1,6 +1,7 @@
 import {
   CurrencyRequest,
   NewCurrencyRequest,
+  NewCurrencyRequestParam,
 } from "../interfaces/DynamodbService";
 import DynamodbService from "../services/DynamodbService";
 import { v4 as getCurrencyRequestId } from "uuid";
@@ -9,6 +10,10 @@ import { SortBy } from "../enums/DynamoDBSortEnum";
 
 export default class CurrencyRequestModel extends DynamodbService {
   private static currencyRequestModelInstance?: CurrencyRequestModel;
+  private readonly DYNAMO_DB_TABLE_NAME: string =
+    process.env.currencyRequestTableName!;
+  private readonly DYNAMO_DB_TABLE_CURRENCY_USER_REQUEST_INDEX =
+    process.env.currencyRequestTableCurrencyUserRequestIndex!;
 
   /**
    * Get an instance
@@ -16,12 +21,11 @@ export default class CurrencyRequestModel extends DynamodbService {
    * @returns {CurrencyRequestModel}
    */
   static getInstance(): CurrencyRequestModel {
-    let currencyRequestModelInstance = this.currencyRequestModelInstance;
-    if (!currencyRequestModelInstance) {
-      currencyRequestModelInstance = new CurrencyRequestModel();
+    if (!this.currencyRequestModelInstance) {
+      this.currencyRequestModelInstance = new CurrencyRequestModel();
     }
 
-    return currencyRequestModelInstance;
+    return this.currencyRequestModelInstance;
   }
 
   /**
@@ -55,7 +59,12 @@ export default class CurrencyRequestModel extends DynamodbService {
       username: currencyRequestParam.username,
     };
 
-    const currencyRequestDB = await this.saveRequest(newCurrencyRequest);
+    const newCurrencyRequestParam: NewCurrencyRequestParam = {
+      data: newCurrencyRequest,
+      tableName: this.DYNAMO_DB_TABLE_NAME,
+    };
+
+    const currencyRequestDB = await this.saveItem(newCurrencyRequestParam);
 
     return currencyRequestDB;
   }
@@ -73,8 +82,8 @@ export default class CurrencyRequestModel extends DynamodbService {
     sort: SortBy = SortBy.asc
   ): Promise<QueryOutput> {
     const query: AWS.DynamoDB.DocumentClient.QueryInput = {
-      TableName: this.getTableNameRequestCurrency(),
-      IndexName: this.getIndexUsername(),
+      TableName: this.DYNAMO_DB_TABLE_NAME,
+      IndexName: this.DYNAMO_DB_TABLE_CURRENCY_USER_REQUEST_INDEX,
       KeyConditionExpression: "#username = :username",
       ExpressionAttributeNames: {
         "#username": "username",

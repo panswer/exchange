@@ -13,7 +13,8 @@ export interface HttpRequestConfig {
 export interface httpRequestData {
   body?: object;
   headers?: object;
-  requestContext?: any
+  requestContext?: any;
+  queryStringParameters?: object;
 }
 
 export interface MiddlewareRequest {

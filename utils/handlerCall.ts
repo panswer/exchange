@@ -57,7 +57,9 @@ export const doRequest = async (
     multiValueQueryStringParameters: {},
     path: "",
     pathParameters: {},
-    queryStringParameters: {},
+    queryStringParameters: {
+      ...data.queryStringParameters
+    },
     requestContext,
     resource: "",
     stageVariables: {},

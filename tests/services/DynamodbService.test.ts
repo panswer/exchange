@@ -1,6 +1,5 @@
 import * as AWSMock from "aws-sdk-mock";
-import { SortBy } from "../../src/enums/DynamoDBSortEnum";
-import { NewCurrencyRequest } from "../../src/interfaces/DynamodbService";
+import { NewCurrencyRequest, NewCurrencyRequestParam } from "../../src/interfaces/DynamodbService";
 
 import DynamodbService from "../../src/services/DynamodbService";
 
@@ -52,10 +51,15 @@ describe("Dynamodb Services - Save request", () => {
       currencyTo: "EUR",
       username: "test@mftech.io",
     };
+    
+    const param: NewCurrencyRequestParam = {
+      data: query,
+      tableName: process.env.currencyRequestTableName!,
+    }
 
     const dynamodbService = DynamodbService.getInstance();
 
-    const result = await dynamodbService.saveRequest(query);
+    const result = await dynamodbService.saveItem(param);
 
     expect(typeof result).toBe("object");
   });
