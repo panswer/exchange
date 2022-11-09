@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1668112443264" clover="3.2.0">
-  <project timestamp="1668112443264" name="All files">
+<coverage generated="1668175337777" clover="3.2.0">
+  <project timestamp="1668175337777" name="All files">
     <metrics statements="984" coveredstatements="984" conditionals="79" coveredconditionals="79" methods="38" coveredmethods="38" elements="1101" coveredelements="1101" complexity="0" loc="984" ncloc="984" packages="6" files="16" classes="16"/>
     <package name="controllers">
       <metrics statements="295" coveredstatements="295" conditionals="10" coveredconditionals="10" methods="4" coveredmethods="4"/>
-      <file name="currency.ts" path="/home/ricardo/Documentos/Proyectos/ZINLI/codigos/practica/cambio-monetario/src/controllers/currency.ts">
+      <file name="currency.ts" path="/Users/atenea/Documents/Proyectos/code/cambio_monetario/src/controllers/currency.ts">
         <metrics statements="90" coveredstatements="90" conditionals="3" coveredconditionals="3" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -97,7 +97,7 @@
         <line num="89" count="1" type="stmt"/>
         <line num="90" count="1" type="stmt"/>
       </file>
-      <file name="getResquests.ts" path="/home/ricardo/Documentos/Proyectos/ZINLI/codigos/practica/cambio-monetario/src/controllers/getResquests.ts">
+      <file name="getResquests.ts" path="/Users/atenea/Documents/Proyectos/code/cambio_monetario/src/controllers/getResquests.ts">
         <metrics statements="56" coveredstatements="56" conditionals="4" coveredconditionals="4" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -156,7 +156,7 @@
         <line num="55" count="1" type="stmt"/>
         <line num="56" count="1" type="stmt"/>
       </file>
-      <file name="signIn.ts" path="/home/ricardo/Documentos/Proyectos/ZINLI/codigos/practica/cambio-monetario/src/controllers/signIn.ts">
+      <file name="signIn.ts" path="/Users/atenea/Documents/Proyectos/code/cambio_monetario/src/controllers/signIn.ts">
         <metrics statements="75" coveredstatements="75" conditionals="1" coveredconditionals="1" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -234,7 +234,7 @@
         <line num="74" count="1" type="stmt"/>
         <line num="75" count="1" type="stmt"/>
       </file>
-      <file name="signUp.ts" path="/home/ricardo/Documentos/Proyectos/ZINLI/codigos/practica/cambio-monetario/src/controllers/signUp.ts">
+      <file name="signUp.ts" path="/Users/atenea/Documents/Proyectos/code/cambio_monetario/src/controllers/signUp.ts">
         <metrics statements="74" coveredstatements="74" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -314,14 +314,14 @@
     </package>
     <package name="enums">
       <metrics statements="38" coveredstatements="38" conditionals="8" coveredconditionals="8" methods="0" coveredmethods="0"/>
-      <file name="ApiLayerPathEnum.ts" path="/home/ricardo/Documentos/Proyectos/ZINLI/codigos/practica/cambio-monetario/src/enums/ApiLayerPathEnum.ts">
+      <file name="ApiLayerPathEnum.ts" path="/Users/atenea/Documents/Proyectos/code/cambio_monetario/src/enums/ApiLayerPathEnum.ts">
         <metrics statements="4" coveredstatements="4" conditionals="1" coveredconditionals="1" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="cond" truecount="1" falsecount="0"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
       </file>
-      <file name="AuthServiceEnum.ts" path="/home/ricardo/Documentos/Proyectos/ZINLI/codigos/practica/cambio-monetario/src/enums/AuthServiceEnum.ts">
+      <file name="AuthServiceEnum.ts" path="/Users/atenea/Documents/Proyectos/code/cambio_monetario/src/enums/AuthServiceEnum.ts">
         <metrics statements="12" coveredstatements="12" conditionals="3" coveredconditionals="3" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="cond" truecount="1" falsecount="0"/>
         <line num="2" count="1" type="stmt"/>
@@ -336,14 +336,14 @@
         <line num="11" count="1" type="stmt"/>
         <line num="12" count="1" type="stmt"/>
       </file>
-      <file name="DynamoDBSortEnum.ts" path="/home/ricardo/Documentos/Proyectos/ZINLI/codigos/practica/cambio-monetario/src/enums/DynamoDBSortEnum.ts">
+      <file name="DynamoDBSortEnum.ts" path="/Users/atenea/Documents/Proyectos/code/cambio_monetario/src/enums/DynamoDBSortEnum.ts">
         <metrics statements="4" coveredstatements="4" conditionals="1" coveredconditionals="1" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="cond" truecount="1" falsecount="0"/>
         <line num="2" count="1" type="stmt"/>
         <line num="3" count="1" type="stmt"/>
         <line num="4" count="1" type="stmt"/>
       </file>
-      <file name="LoggerLevelEnum.ts" path="/home/ricardo/Documentos/Proyectos/ZINLI/codigos/practica/cambio-monetario/src/enums/LoggerLevelEnum.ts">
+      <file name="LoggerLevelEnum.ts" path="/Users/atenea/Documents/Proyectos/code/cambio_monetario/src/enums/LoggerLevelEnum.ts">
         <metrics statements="18" coveredstatements="18" conditionals="3" coveredconditionals="3" methods="0" coveredmethods="0"/>
         <line num="1" count="1" type="cond" truecount="1" falsecount="0"/>
         <line num="2" count="1" type="stmt"/>
@@ -367,7 +367,7 @@
     </package>
     <package name="middlewares">
       <metrics statements="117" coveredstatements="117" conditionals="11" coveredconditionals="11" methods="3" coveredmethods="3"/>
-      <file name="CatchError.ts" path="/home/ricardo/Documentos/Proyectos/ZINLI/codigos/practica/cambio-monetario/src/middlewares/CatchError.ts">
+      <file name="CatchError.ts" path="/Users/atenea/Documents/Proyectos/code/cambio_monetario/src/middlewares/CatchError.ts">
         <metrics statements="43" coveredstatements="43" conditionals="2" coveredconditionals="2" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -413,7 +413,7 @@
         <line num="42" count="1" type="stmt"/>
         <line num="43" count="1" type="stmt"/>
       </file>
-      <file name="CurrencyMiddleware.ts" path="/home/ricardo/Documentos/Proyectos/ZINLI/codigos/practica/cambio-monetario/src/middlewares/CurrencyMiddleware.ts">
+      <file name="CurrencyMiddleware.ts" path="/Users/atenea/Documents/Proyectos/code/cambio_monetario/src/middlewares/CurrencyMiddleware.ts">
         <metrics statements="33" coveredstatements="33" conditionals="5" coveredconditionals="5" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -449,7 +449,7 @@
         <line num="32" count="2" type="stmt"/>
         <line num="33" count="1" type="stmt"/>
       </file>
-      <file name="LogUser.ts" path="/home/ricardo/Documentos/Proyectos/ZINLI/codigos/practica/cambio-monetario/src/middlewares/LogUser.ts">
+      <file name="LogUser.ts" path="/Users/atenea/Documents/Proyectos/code/cambio_monetario/src/middlewares/LogUser.ts">
         <metrics statements="41" coveredstatements="41" conditionals="4" coveredconditionals="4" methods="1" coveredmethods="1"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -496,7 +496,7 @@
     </package>
     <package name="models">
       <metrics statements="101" coveredstatements="101" conditionals="6" coveredconditionals="6" methods="5" coveredmethods="5"/>
-      <file name="CurrencyRequestModel.ts" path="/home/ricardo/Documentos/Proyectos/ZINLI/codigos/practica/cambio-monetario/src/models/CurrencyRequestModel.ts">
+      <file name="CurrencyRequestModel.ts" path="/Users/atenea/Documents/Proyectos/code/cambio_monetario/src/models/CurrencyRequestModel.ts">
         <metrics statements="101" coveredstatements="101" conditionals="6" coveredconditionals="6" methods="5" coveredmethods="5"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -603,7 +603,7 @@
     </package>
     <package name="services">
       <metrics statements="303" coveredstatements="303" conditionals="29" coveredconditionals="29" methods="19" coveredmethods="19"/>
-      <file name="CognitoService.ts" path="/home/ricardo/Documentos/Proyectos/ZINLI/codigos/practica/cambio-monetario/src/services/CognitoService.ts">
+      <file name="CognitoService.ts" path="/Users/atenea/Documents/Proyectos/code/cambio_monetario/src/services/CognitoService.ts">
         <metrics statements="157" coveredstatements="157" conditionals="13" coveredconditionals="13" methods="8" coveredmethods="8"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -644,12 +644,12 @@
         <line num="37" count="1" type="stmt"/>
         <line num="38" count="1" type="stmt"/>
         <line num="39" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="40" count="13" type="cond" truecount="1" falsecount="0"/>
+        <line num="40" count="14" type="cond" truecount="1" falsecount="0"/>
         <line num="41" count="10" type="stmt"/>
         <line num="42" count="10" type="stmt"/>
-        <line num="43" count="13" type="stmt"/>
-        <line num="44" count="13" type="stmt"/>
-        <line num="45" count="13" type="stmt"/>
+        <line num="43" count="14" type="stmt"/>
+        <line num="44" count="14" type="stmt"/>
+        <line num="45" count="14" type="stmt"/>
         <line num="46" count="1" type="stmt"/>
         <line num="47" count="1" type="stmt"/>
         <line num="48" count="1" type="stmt"/>
@@ -742,28 +742,28 @@
         <line num="135" count="1" type="stmt"/>
         <line num="136" count="1" type="stmt"/>
         <line num="137" count="1" type="cond" truecount="1" falsecount="0"/>
-        <line num="138" count="2" type="stmt"/>
-        <line num="139" count="2" type="stmt"/>
-        <line num="140" count="2" type="stmt"/>
-        <line num="141" count="2" type="stmt"/>
-        <line num="142" count="2" type="stmt"/>
-        <line num="143" count="2" type="stmt"/>
-        <line num="144" count="2" type="stmt"/>
-        <line num="145" count="2" type="stmt"/>
-        <line num="146" count="2" type="stmt"/>
-        <line num="147" count="2" type="stmt"/>
-        <line num="148" count="2" type="stmt"/>
-        <line num="149" count="2" type="stmt"/>
-        <line num="150" count="2" type="stmt"/>
-        <line num="151" count="2" type="stmt"/>
-        <line num="152" count="2" type="stmt"/>
-        <line num="153" count="2" type="cond" truecount="1" falsecount="0"/>
+        <line num="138" count="3" type="stmt"/>
+        <line num="139" count="3" type="stmt"/>
+        <line num="140" count="3" type="stmt"/>
+        <line num="141" count="3" type="stmt"/>
+        <line num="142" count="3" type="stmt"/>
+        <line num="143" count="3" type="stmt"/>
+        <line num="144" count="3" type="stmt"/>
+        <line num="145" count="3" type="stmt"/>
+        <line num="146" count="3" type="stmt"/>
+        <line num="147" count="3" type="stmt"/>
+        <line num="148" count="3" type="stmt"/>
+        <line num="149" count="3" type="stmt"/>
+        <line num="150" count="3" type="stmt"/>
+        <line num="151" count="3" type="stmt"/>
+        <line num="152" count="3" type="stmt"/>
+        <line num="153" count="3" type="cond" truecount="1" falsecount="0"/>
         <line num="154" count="1" type="stmt"/>
         <line num="155" count="1" type="stmt"/>
         <line num="156" count="1" type="stmt"/>
         <line num="157" count="1" type="stmt"/>
       </file>
-      <file name="CurrencyApiService.ts" path="/home/ricardo/Documentos/Proyectos/ZINLI/codigos/practica/cambio-monetario/src/services/CurrencyApiService.ts">
+      <file name="CurrencyApiService.ts" path="/Users/atenea/Documents/Proyectos/code/cambio_monetario/src/services/CurrencyApiService.ts">
         <metrics statements="71" coveredstatements="71" conditionals="7" coveredconditionals="7" methods="5" coveredmethods="5"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -837,7 +837,7 @@
         <line num="70" count="1" type="stmt"/>
         <line num="71" count="1" type="stmt"/>
       </file>
-      <file name="DynamodbService.ts" path="/home/ricardo/Documentos/Proyectos/ZINLI/codigos/practica/cambio-monetario/src/services/DynamodbService.ts">
+      <file name="DynamodbService.ts" path="/Users/atenea/Documents/Proyectos/code/cambio_monetario/src/services/DynamodbService.ts">
         <metrics statements="75" coveredstatements="75" conditionals="9" coveredconditionals="9" methods="6" coveredmethods="6"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>
@@ -918,7 +918,7 @@
     </package>
     <package name="utils">
       <metrics statements="130" coveredstatements="130" conditionals="15" coveredconditionals="15" methods="7" coveredmethods="7"/>
-      <file name="Logger.ts" path="/home/ricardo/Documentos/Proyectos/ZINLI/codigos/practica/cambio-monetario/src/utils/Logger.ts">
+      <file name="Logger.ts" path="/Users/atenea/Documents/Proyectos/code/cambio_monetario/src/utils/Logger.ts">
         <metrics statements="130" coveredstatements="130" conditionals="15" coveredconditionals="15" methods="7" coveredmethods="7"/>
         <line num="1" count="1" type="stmt"/>
         <line num="2" count="1" type="stmt"/>

@@ -215,4 +215,27 @@ describe("Auth - Cognito service", () => {
       ).rejects.toHaveProperty("message", error.message);
     });
   });
+
+  test("Error to get a session token", () => {
+    const error: AWSError = {
+      code: "test",
+      message: "Test error",
+      name: "Unit test",
+      time: new Date(),
+    };
+
+    AWSMock.mock(
+      "CognitoIdentityServiceProvider",
+      "adminInitiateAuth",
+      (_param, callback) => {
+        callback(error);
+      }
+    );
+
+    const cognitoService = CognitoService.getInstance();
+
+    expect(
+      cognitoService.getSessionToken("test@mftech.io", "test")
+    ).rejects.toHaveProperty("message", error.message);
+  });
 });
