@@ -1,8 +1,8 @@
-import { runMiddleware } from "../../utils/handlerCall";
+import { runMiddleware } from "../helpers/handlerRequest";
 
 const middlewareName = "CatchError";
 
-const mockWriteLogger = jest.fn(() => true);
+const mockWriteLogger = jest.fn();
 
 jest.mock("../../src/utils/Logger", () => ({
   getInstance: () => ({
@@ -17,6 +17,7 @@ describe("Catch Errors", () => {
         data: "test",
       },
     };
+
     const error = new Error("Test with body");
     const context = {};
 
@@ -42,8 +43,6 @@ describe("Catch Errors", () => {
       context,
     });
 
-    const hasMethod = Object.keys(result).includes("onError");
-
-    expect(hasMethod).toBe(true);
+    expect(result).toHaveProperty("onError");
   });
 });
