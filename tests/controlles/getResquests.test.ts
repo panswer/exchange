@@ -1,14 +1,17 @@
-import { doRequest } from "../../utils/handlerCall";
+import { doRequest } from "../helpers/handlerRequest";
 import { SortBy } from "../../src/enums/DynamoDBSortEnum";
+import { httpRequestData } from "../helpers/interfaces/httpRequest";
+import { requestContextSuccessMock } from "../mocks/generic/request";
 
-process.env.TEST_ON = "1";
+const mockGetRequestsByUsername = jest.fn().mockResolvedValue({});
 
-const mockGetRequestsByUsername = jest.fn(
-  () =>
-    new Promise((resolve) => {
-      resolve({});
-    })
-);
+const mockLogUser = jest.fn();
+
+const mockCatchErrorOnError = jest.fn().mockImplementation(() => ({
+  statusCode: 500,
+}));
+
+const mockWriteLogger = jest.fn();
 
 jest.mock("../../src/models/CurrencyRequestModel", () => ({
   getInstance: () => ({
@@ -16,37 +19,45 @@ jest.mock("../../src/models/CurrencyRequestModel", () => ({
   }),
 }));
 
+jest.mock("../../src/middlewares/LogUser", () => ({
+  LogUser: {
+    before: mockLogUser,
+  },
+}));
+
+jest.mock("../../src/middlewares/CatchError", () => ({
+  onError: mockCatchErrorOnError,
+}));
+
+jest.mock("../../src/utils/Logger", () => ({
+  getInstance: () => ({
+    writeLogger: mockWriteLogger,
+  }),
+}));
+
 const functionName = "getResquests";
 
 describe("Get requests", () => {
-  test("Get request list - success", async () => {
-    expect(
-      doRequest(functionName, {
-        requestContext: {
-          authorizer: {
-            claims: {
-              username: "test@mftech.io",
-            },
-          },
-        },
-      })
-    ).resolves.toHaveProperty("statusCode", 200);
+  test("Get request list - success", () => {
+    const requestData: httpRequestData = {
+      requestContext: requestContextSuccessMock,
+    };
+    expect(doRequest(functionName, requestData)).resolves.toHaveProperty(
+      "statusCode",
+      200
+    );
   });
 
-  test("Get request list (asc) - success", async () => {
-    expect(
-      doRequest(functionName, {
-        queryStringParameters: {
-          sort: SortBy.asc,
-        },
-        requestContext: {
-          authorizer: {
-            claims: {
-              username: "test@mftech.io",
-            },
-          },
-        },
-      })
-    ).resolves.toHaveProperty("statusCode", 200);
+  test("Get request list (asc) - success", () => {
+    const requestData: httpRequestData = {
+      queryStringParameters: {
+        sort: SortBy.asc,
+      },
+      requestContext: requestContextSuccessMock,
+    };
+    expect(doRequest(functionName, requestData)).resolves.toHaveProperty(
+      "statusCode",
+      200
+    );
   });
 });
