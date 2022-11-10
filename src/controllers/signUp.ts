@@ -12,6 +12,25 @@ import { CatchError } from "../middlewares/CatchError";
 import validator from "@middy/validator";
 import CognitoService from "../services/CognitoService";
 
+const inputSchema = {
+  type: "object",
+  required: ["body"],
+  properties: {
+    body: {
+      type: "object",
+      required: ["email", "password"],
+      properties: {
+        email: {
+          type: "string",
+        },
+        password: {
+          type: "string",
+        },
+      },
+    },
+  },
+};
+
 const lambdaHandler = async (
   event: APIGatewayProxyEvent & SignUpRequestEvent,
   context: Context
@@ -45,25 +64,6 @@ const lambdaHandler = async (
   };
 };
 
-const inputSchema = {
-  type: "object",
-  required: ["body"],
-  properties: {
-    body: {
-      type: "object",
-      required: ["email", "password"],
-      properties: {
-        email: {
-          type: "string",
-        },
-        password: {
-          type: "string",
-        },
-      },
-    },
-  },
-};
-
 export const handler = middy(lambdaHandler)
   .use(httpJsonBodyParser())
   .use(CatchError)
@@ -72,4 +72,3 @@ export const handler = middy(lambdaHandler)
       inputSchema,
     })
   );
-// .before(SignUpValidate.getInstance(["email", "password"]));

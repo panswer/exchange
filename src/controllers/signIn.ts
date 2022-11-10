@@ -12,6 +12,25 @@ import { CatchError } from "../middlewares/CatchError";
 import validator from "@middy/validator";
 import CognitoService from "../services/CognitoService";
 
+const inputSchema = {
+  type: "object",
+  required: ["body"],
+  properties: {
+    body: {
+      type: "object",
+      required: ["email", "password"],
+      properties: {
+        email: {
+          type: "string",
+        },
+        password: {
+          type: "string",
+        },
+      },
+    },
+  },
+};
+
 const lambdaHandler = async (
   event: APIGatewayProxyEvent & SignInRequestEvent,
   context: Context
@@ -25,7 +44,6 @@ const lambdaHandler = async (
     data: { user: event.body.email },
   });
   const cognitoService = CognitoService.getInstance();
-
   const result = await cognitoService.getSessionToken(
     event.body.email,
     event.body.password
@@ -45,25 +63,6 @@ const lambdaHandler = async (
       result,
     }),
   };
-};
-
-const inputSchema = {
-  type: "object",
-  required: ["body"],
-  properties: {
-    body: {
-      type: "object",
-      required: ["email", "password"],
-      properties: {
-        email: {
-          type: "string",
-        },
-        password: {
-          type: "string",
-        },
-      },
-    },
-  },
 };
 
 export const handler = middy(lambdaHandler)

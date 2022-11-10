@@ -13,8 +13,29 @@ import CatchError from "../middlewares/CatchError";
 import validator from "@middy/validator";
 import { LogUser } from "../middlewares/LogUser";
 import { CurrencyMiddleware } from "../middlewares/CurrencyMiddleware";
-// import DynamodbService from "../services/DynamodbService";
 import CurrencyRequestModel from "../models/CurrencyRequestModel";
+
+const inputSchema = {
+  type: "object",
+  required: ["body"],
+  properties: {
+    body: {
+      type: "object",
+      required: ["from", "to", "amount"],
+      properties: {
+        from: {
+          type: "string",
+        },
+        to: {
+          type: "string",
+        },
+        amount: {
+          type: "number",
+        },
+      },
+    },
+  },
+};
 
 const lambdaHandler = async (
   event: APIGatewayProxyEvent & CurrencyEventRequestInterface,
@@ -42,45 +63,6 @@ const lambdaHandler = async (
     currencyTo: event.body.to,
     username: event.requestContext.authorizer?.claims.username,
   });
-  // const dynamodbService = DynamodbService.getInstance();
-
-  // dynamodbService
-  //   .saveRequest({
-  //     currencyTo: event.body.to,
-  //     currencyFrom: event.body.from,
-  //     amount: amounts.query.amount,
-  //     amountResult: amounts.result,
-  //     username: event.requestContext.authorizer!.claims.username,
-  //   })
-  //   .then((res) => {
-  //     logger.writeLogger({
-  //       functionName: context.functionName,
-  //       level: LoggerLevel.info,
-  //       message: "Currency status successful",
-  //       data: {
-  //         currencyFrom: amounts.query.from,
-  //         currencyTo: amounts.query.to,
-  //         amount: amounts.query.amount,
-  //         total: amounts.result,
-  //         username: event.requestContext.authorizer!.claims.username,
-  //       },
-  //     });
-  //   })
-  //   .catch((err) => {
-  //     logger.writeLogger({
-  //       functionName: context.functionName,
-  //       level: LoggerLevel.info,
-  //       message: "Currency status failed",
-  //       data: {
-  //         currencyFrom: amounts.query.from,
-  //         currencyTo: amounts.query.to,
-  //         amount: amounts.query.amount,
-  //         total: amounts.result,
-  //         message: err.message,
-  //         username: event.requestContext.authorizer!.claims.username,
-  //       },
-  //     });
-  //   });
 
   logger.writeLogger({
     functionName: context.functionName,
@@ -94,28 +76,6 @@ const lambdaHandler = async (
       amounts,
     }),
   };
-};
-
-const inputSchema = {
-  type: "object",
-  required: ["body"],
-  properties: {
-    body: {
-      type: "object",
-      required: ["from", "to", "amount"],
-      properties: {
-        from: {
-          type: "string",
-        },
-        to: {
-          type: "string",
-        },
-        amount: {
-          type: "number",
-        },
-      },
-    },
-  },
 };
 
 export const handler = middy(lambdaHandler)
