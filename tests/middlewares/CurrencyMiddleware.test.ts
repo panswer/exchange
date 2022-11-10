@@ -1,5 +1,5 @@
-import { runMiddleware } from "../../utils/handlerCall";
-import { MiddlewareResponse } from "../../utils/interfaces/httpRequest";
+import { runMiddleware } from "../helpers/handlerRequest";
+import { MiddlewareResponse } from "../helpers/interfaces/httpRequest";
 
 const middlewareName = "CurrencyMiddleware";
 
