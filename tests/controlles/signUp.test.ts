@@ -1,37 +1,52 @@
-import { reject } from "lodash";
-import { doRequest } from "../../utils/handlerCall";
+import { httpRequestData } from "../helpers/interfaces/httpRequest";
+import { doRequest } from "../helpers/handlerRequest";
 import {
-  adminCreateUserSuccess,
-  adminSetUserPasswordSuccess,
-} from "../responses/Cognito";
+  createAnUserSuccessMock,
+  setPasswordToUserSuccessMock
+} from '../mocks/controllers/signUpMocks'
 
 const functionName = "signUp";
 
-const mockCreateAnUser = jest.fn(
-  (email) =>
-    new Promise((resolve, reject) => {
-      if (!email) {
-        reject("Test error in create an user");
-      } else {
-        resolve(adminCreateUserSuccess);
-      }
-    })
-);
-const mockSetPasswordToUser = jest.fn(
-  (email, password) =>
-    new Promise((resolve) => {
-      if (!email || !password) {
-        reject("Test error in set a password to user");
-      } else {
-        resolve(adminSetUserPasswordSuccess);
-      }
-    })
-);
+const mockCreateAnUser = jest.fn().mockResolvedValue(createAnUserSuccessMock);
+
+const mockSetPasswordToUser = jest
+  .fn()
+  .mockResolvedValue(setPasswordToUserSuccessMock);
+
+const mockHttpJsonBodyParser = jest.fn();
+
+const mockCarchErrorOnError = jest.fn(() => ({
+  statusCode: 500,
+}));
+
+const mockValidator = jest.fn();
+
+const mockWriteLogger = jest.fn();
 
 jest.mock("../../src/services/CognitoService", () => ({
   getInstance: () => ({
     createAnUser: mockCreateAnUser,
     setPasswordToUser: mockSetPasswordToUser,
+  }),
+}));
+
+jest.mock("@middy/http-json-body-parser", () => () => ({
+  before: mockHttpJsonBodyParser,
+}));
+
+jest.mock("../../src/middlewares/CatchError", () => ({
+  CatchError: {
+    onError: mockCarchErrorOnError,
+  },
+}));
+
+jest.mock("@middy/validator", () => () => ({
+  before: mockValidator,
+}));
+
+jest.mock("../../src/utils/Logger", () => ({
+  getInstance: () => ({
+    writeLogger: mockWriteLogger,
   }),
 }));
 
@@ -42,33 +57,43 @@ describe("Auth - Sign up", () => {
       password: "Ricardo.1",
     };
 
-    const result = await doRequest(functionName, {
+    const requestData: httpRequestData = {
       body,
-    });
+    };
+
+    const result = await doRequest(functionName, requestData);
 
     expect(result.statusCode).toBe(201);
   });
 
   test("Sign up without email", async () => {
+    mockCreateAnUser.mockRejectedValueOnce(new Error("Test error"));
+
     const body = {
       password: "Ricardo.1",
     };
 
-    const result = await doRequest(functionName, {
+    const requestData: httpRequestData = {
       body,
-    });
+    };
+
+    const result = await doRequest(functionName, requestData);
 
     expect(result.statusCode).toBe(500);
   });
 
   test("Sign up without password", async () => {
+    mockCreateAnUser.mockRejectedValueOnce(new Error("Test error"));
+
     const body = {
       email: "ricardo@mftech.io",
     };
 
-    const result = await doRequest(functionName, {
+    const requestData: httpRequestData = {
       body,
-    });
+    };
+
+    const result = await doRequest(functionName, requestData);
 
     expect(result.statusCode).toBe(500);
   });
