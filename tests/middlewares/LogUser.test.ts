@@ -1,5 +1,6 @@
-import { runMiddleware } from "../../utils/handlerCall";
+import { runMiddleware } from "../helpers/handlerRequest";
 import { UserAttributesEnum } from "../../src/enums/AuthServiceEnum";
+import { requestContextSuccessMock } from "../mocks/generic/request";
 
 const middlewareName = "LogUser";
 const username = "aaa@aaa.aa";
@@ -13,22 +14,24 @@ const mockGetUser = jest.fn(() => ({
   ],
 }));
 
+const mockWriteLogger = jest.fn();
+
 jest.mock("../../src/services/CognitoService", () => ({
   getInstance: () => ({
     getUser: mockGetUser,
   }),
 }));
 
+jest.mock("../../src/utils/Logger", () => ({
+  getInstance: () => ({
+    writeLogger: mockWriteLogger,
+  }),
+}));
+
 describe("Auth - middleware", () => {
   test("Log success without test", async () => {
     const event = {
-      requestContext: {
-        authorizer: {
-          claims: {
-            username: username,
-          },
-        },
-      },
+      requestContext: requestContextSuccessMock,
     };
     const context = {};
 
