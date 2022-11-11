@@ -1,5 +1,7 @@
 import CurrencyApiService from "../../src/services/CurrencyApiService";
 
+import { apiServiceGoodRequest } from "../mocks/services/CurrencyApiService";
+
 process.env.API_LAYER_KEY = "123";
 process.env.API_LAYER_URL = "123";
 
@@ -11,22 +13,22 @@ jest.mock("axios", () => ({
   get: () => mockGetFn(),
 }));
 
-describe("Api Layer", () => {
-  describe("Test about instance of class", () => {
-    test("Get an instance", () => {
+describe("CurrencyApiService - services", () => {
+  describe("Should test to get and destroy an instance", () => {
+    test("Should test to get an instance", () => {
       const currencyApiService = CurrencyApiService.getInstance();
 
       expect(currencyApiService).toBeInstanceOf(CurrencyApiService);
     });
 
-    test("Get twice the same instance", () => {
+    test("Should test to get twice the same instance", () => {
       const currencyApiService = CurrencyApiService.getInstance();
       const currencyApiService2 = CurrencyApiService.getInstance();
 
       expect(currencyApiService).toBe(currencyApiService2);
     });
 
-    test("Destroy an instance", () => {
+    test("Should test to destroy and get a new instance", () => {
       const currencyApiService = CurrencyApiService.getInstance();
 
       CurrencyApiService.destroyInstance();
@@ -37,32 +39,25 @@ describe("Api Layer", () => {
     });
   });
 
-  describe("Test about methods of class", () => {
+  describe("Should test the methods on the class", () => {
     beforeEach(() => {
       CurrencyApiService.destroyInstance();
     });
-    test("Get exchange currency ", () => {
+
+    test("Should test to get exchange currency success", () => {
       const currencyApiService = CurrencyApiService.getInstance();
 
       expect(
-        currencyApiService.getExchangeCurrency({
-          amount: 1,
-          from: "USD",
-          to: "EUR",
-        })
+        currencyApiService.getExchangeCurrency(apiServiceGoodRequest)
       ).resolves.toStrictEqual({});
     });
 
-    test("Throw an error from API", () => {
+    test("Should test to get an error from the api", () => {
       mockGetFn.mockRejectedValueOnce(new Error("Test error"));
       const currencyApiService = CurrencyApiService.getInstance();
 
       expect(
-        currencyApiService.getExchangeCurrency({
-          amount: 1,
-          from: "USD",
-          to: "EUR",
-        })
+        currencyApiService.getExchangeCurrency(apiServiceGoodRequest)
       ).rejects.toHaveProperty("message", "Test error");
     });
   });
