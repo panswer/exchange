@@ -1,5 +1,10 @@
 import { runMiddleware } from "../helpers/handlerRequest";
 
+import {
+  requestWithBody,
+  requestWithoutBody,
+} from "../mocks/middlewares/CatchError";
+
 const middlewareName = "CatchError";
 
 const mockWriteLogger = jest.fn();
@@ -10,38 +15,23 @@ jest.mock("../../src/utils/Logger", () => ({
   }),
 }));
 
-describe("Catch Errors", () => {
-  test("Verify error with body on event", async () => {
-    const event = {
-      body: {
-        data: "test",
-      },
-    };
+describe("CatchError - middleware", () => {
+  test("Should test to verify error with body on event", async () => {
+    const result = await runMiddleware(
+      middlewareName,
+      "CatchError",
+      requestWithBody
+    );
 
-    const error = new Error("Test with body");
-    const context = {};
-
-    const result = await runMiddleware(middlewareName, "CatchError", {
-      event,
-      error,
-      context,
-    });
-
-    const hasMethod = Object.keys(result).includes("onError");
-
-    expect(hasMethod).toBe(true);
+    expect(result).toHaveProperty("onError");
   });
 
-  test("Verify error without body on event", async () => {
-    const event = {};
-    const error = new Error("Test without body");
-    const context = {};
-
-    const result = await runMiddleware(middlewareName, "CatchError", {
-      error,
-      event,
-      context,
-    });
+  test("Should test to verify error without body on event", async () => {
+    const result = await runMiddleware(
+      middlewareName,
+      "CatchError",
+      requestWithoutBody
+    );
 
     expect(result).toHaveProperty("onError");
   });
