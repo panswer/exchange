@@ -1,58 +1,21 @@
 import { runMiddleware } from "../helpers/handlerRequest";
-import { MiddlewareResponse } from "../helpers/interfaces/httpRequest";
+import {
+  middlewareGoodRequest,
+  middlewareBadRequest,
+} from "../mocks/middlewares/CurrencyMiddleware";
 
 const middlewareName = "CurrencyMiddleware";
 
-describe("Verify - CurrencyMiddleware", () => {
-  test("Body with all data", async () => {
-    const body = {
-      from: "USD",
-      to: "EUR",
-      amount: 10,
-    };
-
-    const event = {
-      body,
-    };
-
-    let hasError = false;
-    let result: MiddlewareResponse = {};
-
-    try {
-      result = await runMiddleware(middlewareName, "CurrencyMiddleware", {
-        event,
-      });
-    } catch (error) {
-      hasError = true;
-    }
-
-    expect(hasError).toBe(false);
-
-    const calledMethod = Object.keys(result).includes("before");
-
-    expect(calledMethod).toBe(true);
+describe("CurrencyMiddleware - CurrencyMiddleware", () => {
+  test("Should test about body with all data in request", () => {
+    expect(
+      runMiddleware(middlewareName, "CurrencyMiddleware", middlewareGoodRequest)
+    ).resolves.toHaveProperty("before");
   });
 
-  test("Body without amount", async () => {
-    const body = {
-      from: "USD",
-      to: "EUR",
-    };
-
-    const event = {
-      body,
-    };
-
-    let hasError = false;
-
-    try {
-      await runMiddleware(middlewareName, "CurrencyMiddleware", {
-        event,
-      });
-    } catch (error) {
-      hasError = true;
-    }
-
-    expect(hasError).toBe(true);
+  test("Should test about body without amount in request", () => {
+    expect(
+      runMiddleware(middlewareName, "CurrencyMiddleware", middlewareBadRequest)
+    ).rejects.toHaveProperty("message");
   });
 });
