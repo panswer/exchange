@@ -42,7 +42,7 @@
   "description": "currency exchage",
   "main": "index.js",
   "scripts": {
-    "test": "jest",
+    "test": "jest --detectOpenHandles",
     "dev": "sls offline local-authorizers --stage dev"
   },
   "keywords": [
