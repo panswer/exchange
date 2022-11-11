@@ -1,6 +1,10 @@
 import { runMiddleware } from "../helpers/handlerRequest";
 import { UserAttributesEnum } from "../../src/enums/AuthServiceEnum";
-import { requestContextSuccessMock } from "../mocks/generic/request";
+
+import {
+  middlewareGoodRequest,
+  middlewareBadRequest,
+} from "../mocks/middlewares/LogUser";
 
 const middlewareName = "LogUser";
 const username = "aaa@aaa.aa";
@@ -28,39 +32,16 @@ jest.mock("../../src/utils/Logger", () => ({
   }),
 }));
 
-describe("Auth - middleware", () => {
-  test("Log success without test", async () => {
-    const event = {
-      requestContext: requestContextSuccessMock,
-    };
-    const context = {};
-
-    const result = await runMiddleware(middlewareName, "LogUser", {
-      event,
-      context,
-    });
-
-    expect(result.before).toBe(undefined);
+describe("LogUser - middleware", () => {
+  test("Log success without test", () => {
+    expect(
+      runMiddleware(middlewareName, "LogUser", middlewareGoodRequest)
+    ).resolves.toHaveProperty("before");
   });
 
-  test("Log error without username", async () => {
-    const event = {
-      requestContext: {
-        authorizer: {},
-      },
-    };
-    const context = {};
-    let catchError = false;
-
-    try {
-      await runMiddleware(middlewareName, "LogUser", {
-        event,
-        context,
-      });
-    } catch (error) {
-      catchError = true;
-    }
-
-    expect(catchError).toBe(true);
+  test("Log error without username", () => {
+    expect(
+      runMiddleware(middlewareName, "LogUser", middlewareBadRequest)
+    ).rejects.toHaveProperty("message");
   });
 });
