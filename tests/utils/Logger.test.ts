@@ -1,21 +1,24 @@
 import { LoggerLevel, LoggerStage } from "../../src/enums/LoggerLevelEnum";
 import Logger from "../../src/utils/Logger";
 
-describe("Logger methods", () => {
-  test("Get an instance", () => {
+describe("Logger - utils", () => {
+  beforeEach(() => {
+    Logger.destroyInstance();
+  });
+  test("Should test to get an instance", () => {
     const logger = Logger.getInstance();
 
-    expect(typeof logger).toBe("object");
+    expect(logger).toBeInstanceOf(Logger);
   });
 
-  test("Get twice the same instance", () => {
+  test("Should test to get twice the same instance", () => {
     const logger = Logger.getInstance();
     const logger2 = Logger.getInstance();
 
     expect(logger).toBe(logger2);
   });
 
-  test("Destroy the instance", () => {
+  test("Should test to destroy the instance and get a new instance", () => {
     const logger = Logger.getInstance();
     Logger.destroyInstance();
     const logger2 = Logger.getInstance();
@@ -23,8 +26,7 @@ describe("Logger methods", () => {
     expect(logger).not.toBe(logger2);
   });
 
-  test("Write log - dev", () => {
-    Logger.destroyInstance();
+  test("Should test to write log in dev stage", () => {
     process.env.stage = LoggerStage.DEV;
     const logger = Logger.getInstance();
 
@@ -43,8 +45,7 @@ describe("Logger methods", () => {
     expect(hasError).toBe(false);
   });
 
-  test("Write log - pre-sta", () => {
-    Logger.destroyInstance();
+  test("Should test to write log in pre-sta stage", () => {
     process.env.stage = LoggerStage.PRE_STA;
     const logger = Logger.getInstance();
 
@@ -62,8 +63,7 @@ describe("Logger methods", () => {
     expect(hasError).toBe(false);
   });
 
-  test("Write log - sta", () => {
-    Logger.destroyInstance();
+  test("Should test to write log in sta stage", () => {
     process.env.stage = LoggerStage.STA;
     const logger = Logger.getInstance();
 
@@ -82,7 +82,7 @@ describe("Logger methods", () => {
     expect(hasError).toBe(false);
   });
 
-  test("Logger with data", () => {
+  test("Should test to write log with data", () => {
     const logger = Logger.getInstance();
 
     let hasError = false;
