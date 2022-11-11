@@ -1,11 +1,15 @@
 import { httpRequestData } from "../helpers/interfaces/httpRequest";
 import { doRequest } from "../helpers/handlerRequest";
 
-import { signInSuccess } from "../mocks/controllers/signInMocks";
+import {
+  signInResponseSuccess,
+  signInRequestSuccess,
+  signInRequestBad,
+} from "../mocks/controllers/signInMocks";
 
 const functionName = "signIn";
 
-const mockSignInFlow = jest.fn().mockResolvedValue(signInSuccess);
+const mockSignInFlow = jest.fn().mockResolvedValue(signInResponseSuccess);
 
 const mockHttpJsonBodyParser = jest.fn();
 
@@ -45,10 +49,7 @@ jest.mock("../../src/utils/Logger", () => ({
 
 describe("signIn - function lambda", () => {
   test("Should test to get accesses token", async () => {
-    const body = {
-      email: "ricardo@mftech.io",
-      password: "Ricardo.1",
-    };
+    const body = signInRequestSuccess;
 
     const requestData: httpRequestData = {
       body,
@@ -64,10 +65,8 @@ describe("signIn - function lambda", () => {
   });
 
   test("Should test to get an error by request without password", async () => {
-    mockValidator.mockRejectedValueOnce(new Error("Test error"))
-    const body = {
-      email: "ricardo@mftech.io",
-    };
+    mockValidator.mockRejectedValueOnce(new Error("Test error"));
+    const body = signInRequestBad;
     const requestData: httpRequestData = {
       body,
     };

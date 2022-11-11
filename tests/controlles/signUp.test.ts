@@ -2,8 +2,11 @@ import { httpRequestData } from "../helpers/interfaces/httpRequest";
 import { doRequest } from "../helpers/handlerRequest";
 import {
   createAnUserSuccessMock,
-  setPasswordToUserSuccessMock
-} from '../mocks/controllers/signUpMocks'
+  setPasswordToUserSuccessMock,
+  signInRequestSuccess,
+  signInRequestWithoutPassword,
+  signInRequestWithoutEmail,
+} from "../mocks/controllers/signUpMocks";
 
 const functionName = "signUp";
 
@@ -50,12 +53,9 @@ jest.mock("../../src/utils/Logger", () => ({
   }),
 }));
 
-describe("Auth - Sign up", () => {
-  test("Sign up success", async () => {
-    const body = {
-      email: "ricardo@mftech.io",
-      password: "Ricardo.1",
-    };
+describe("signUp - function lambda", () => {
+  test("Should test to save a new user in cognito service", async () => {
+    const body = signInRequestSuccess;
 
     const requestData: httpRequestData = {
       body,
@@ -66,12 +66,11 @@ describe("Auth - Sign up", () => {
     expect(result.statusCode).toBe(201);
   });
 
-  test("Sign up without email", async () => {
+  test("Should test to give an error by request without password", async () => {
     mockCreateAnUser.mockRejectedValueOnce(new Error("Test error"));
 
-    const body = {
-      password: "Ricardo.1",
-    };
+    const body = signInRequestWithoutPassword;
+    signInRequestWithoutEmail;
 
     const requestData: httpRequestData = {
       body,
@@ -82,12 +81,10 @@ describe("Auth - Sign up", () => {
     expect(result.statusCode).toBe(500);
   });
 
-  test("Sign up without password", async () => {
+  test("Should test to give an error by request without email", async () => {
     mockCreateAnUser.mockRejectedValueOnce(new Error("Test error"));
 
-    const body = {
-      email: "ricardo@mftech.io",
-    };
+    const body = signInRequestWithoutEmail;
 
     const requestData: httpRequestData = {
       body,

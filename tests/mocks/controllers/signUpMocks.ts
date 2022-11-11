@@ -28,4 +28,17 @@ export const createAnUserSuccessMock: AdminCreateUserResponse = {
   },
 };
 
+export const signInRequestSuccess = {
+  email: "ricardo@mftech.io",
+  password: "Ricardo.1",
+};
+
+export const signInRequestWithoutPassword = {
+  email: "ricardo@mftech.io",
+};
+
+export const signInRequestWithoutEmail = {
+  password: "Ricardo.1",
+};
+
 export const setPasswordToUserSuccessMock: AdminSetUserPasswordResponse = {};
