@@ -37,8 +37,8 @@ jest.mock("../../src/utils/Logger", () => ({
 
 const functionName = "getResquests";
 
-describe("Get requests", () => {
-  test("Get request list - success", () => {
+describe("getRequests - function lambda", () => {
+  test("Should test to get the requests list", () => {
     const requestData: httpRequestData = {
       requestContext: requestContextSuccessMock,
     };
@@ -48,7 +48,7 @@ describe("Get requests", () => {
     );
   });
 
-  test("Get request list (asc) - success", () => {
+  test("Should test to get the requests list sort by ascendent", () => {
     const requestData: httpRequestData = {
       queryStringParameters: {
         sort: SortBy.asc,

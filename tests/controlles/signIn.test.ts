@@ -43,8 +43,8 @@ jest.mock("../../src/utils/Logger", () => ({
   }),
 }));
 
-describe("Auth - Sign in", () => {
-  test("Sign in success", async () => {
+describe("signIn - function lambda", () => {
+  test("Should test to get accesses token", async () => {
     const body = {
       email: "ricardo@mftech.io",
       password: "Ricardo.1",
@@ -63,10 +63,8 @@ describe("Auth - Sign in", () => {
     expect(response.success).toBe(true);
   });
 
-  test("Catch data without password", async () => {
-    mockValidator.mockImplementationOnce(() => {
-      throw new Error("Test error");
-    });
+  test("Should test to get an error by request without password", async () => {
+    mockValidator.mockRejectedValueOnce(new Error("Test error"))
     const body = {
       email: "ricardo@mftech.io",
     };

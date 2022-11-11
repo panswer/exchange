@@ -74,8 +74,8 @@ jest.mock("../../src/utils/Logger", () => ({
   }),
 }));
 
-describe("Exchange - Basic", () => {
-  test("Get exchange rate success", async () => {
+describe("currency - function lambda", () => {
+  test("Should test to get exchange data rate success", async () => {
     mockSaveCurrencyRequest.mockImplementationOnce(
       () => saveCurrencyRequestSuccessMock
     );
@@ -98,7 +98,7 @@ describe("Exchange - Basic", () => {
     expect(resultJSON.query.to).toBe(currencyRequestSucessMock.to);
   });
 
-  test("Request without currency from", () => {
+  test("Should test to get an error by request without 'to' field", () => {
     mockGetExchangeCurrency.mockRejectedValueOnce(new Error("Test Error"));
 
     const body = currencyRequestBadMock;
@@ -114,7 +114,7 @@ describe("Exchange - Basic", () => {
     );
   });
 
-  test("Good Request but don't save", () => {
+  test("Should test to get exchange rate from API but with an error to save the request in database", () => {
     mockSaveCurrencyRequest.mockRejectedValueOnce(new Error("Test error"));
 
     const body = currencyRequestSucessMock;
