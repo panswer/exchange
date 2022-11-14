@@ -16,10 +16,10 @@ export const LogUser = {
   before: async (request: MiddlewareInterface): Promise<void> => {
     const logger = Logger.getInstance();
     const username: string =
-      request.event.requestContext.authorizer?.claims['cognito:username'];
+      request.event.requestContext.authorizer?.claims?.email;
     
     if (!username) {
-      throw new Error("Unauthoriced - whitout token");
+      throw new Error("Unauthoriced");
     }
     const cognito = CognitoService.getInstance();
 

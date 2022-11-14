@@ -39,9 +39,9 @@ describe("LogUser - middleware", () => {
     ).resolves.toHaveProperty("before");
   });
 
-  test("Log error without username", () => {
+  test("Log error without username", async () => {
     expect(
       runMiddleware(middlewareName, "LogUser", middlewareBadRequest)
-    ).rejects.toHaveProperty("message");
+    ).rejects.toHaveProperty("message", "Unauthoriced");
   });
 });
