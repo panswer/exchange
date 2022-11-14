@@ -46,7 +46,7 @@ const lambdaHandler = async (
     functionName: context.functionName,
     level: LoggerLevel.info,
     message: "Start lambda function (currency)",
-    data: { user: event.requestContext.authorizer!.claims.username },
+    data: { user: event.requestContext.authorizer?.claims['cognito:username'] },
   });
   const request = event.body;
 
@@ -61,7 +61,7 @@ const lambdaHandler = async (
     amountResult: amounts.result,
     currencyFrom: event.body.from,
     currencyTo: event.body.to,
-    username: event.requestContext.authorizer?.claims.username,
+    username: event.requestContext.authorizer?.claims['cognito:username'],
   });
 
   logger.writeLogger({

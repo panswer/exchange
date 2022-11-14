@@ -25,7 +25,7 @@ const lambdaHandler = async (
     functionName: context.functionName,
     level: LoggerLevel.info,
     message: "Get history request start",
-    data: { user: event.requestContext.authorizer!.claims.username, sort },
+    data: { user: event.requestContext.authorizer?.claims['cognito:username'], sort },
   });
 
   logger.writeLogger({
@@ -37,7 +37,7 @@ const lambdaHandler = async (
     },
   });
   const result = await currencyRequestModel.getRequestsByUsername(
-    event.requestContext.authorizer!.claims.username,
+    event.requestContext.authorizer?.claims['cognito:username'],
     sort
   );
 
