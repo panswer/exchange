@@ -44,7 +44,7 @@ describe("CognitoService - services", () => {
       AWSMock.restore("CognitoIdentityServiceProvider");
     });
 
-    test("Should test to get an user from cognito", () => {
+    test("Should get an user success", () => {
       AWSMock.mock(
         "CognitoIdentityServiceProvider",
         "adminGetUser",
@@ -64,7 +64,7 @@ describe("CognitoService - services", () => {
       );
     });
 
-    test("Should test to create a new user", () => {
+    test("Should create a new user success", () => {
       AWSMock.mock(
         "CognitoIdentityServiceProvider",
         "adminCreateUser",
@@ -85,7 +85,7 @@ describe("CognitoService - services", () => {
       );
     });
 
-    test("Should test to set a new password to user by username", () => {
+    test("Should set a new password by username success", () => {
       AWSMock.mock(
         "CognitoIdentityServiceProvider",
         "adminSetUserPassword",
@@ -103,7 +103,7 @@ describe("CognitoService - services", () => {
       ).resolves.toStrictEqual({});
     });
 
-    test("Should test to get a session token", () => {
+    test("Should get a session token success", () => {
       AWSMock.mock(
         "CognitoIdentityServiceProvider",
         "adminInitiateAuth",
