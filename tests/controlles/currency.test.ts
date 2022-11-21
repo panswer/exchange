@@ -20,13 +20,7 @@ const mockSaveCurrencyRequest = jest.fn();
 
 const mockHttpJsonBodyParser = jest.fn();
 
-const mockCatchErrorOnError = jest.fn(() => ({
-  statusCode: 500,
-}));
-
 const mockLogUserBefore = jest.fn();
-
-const mockValidatorBefore = jest.fn();
 
 const mockCurrencyMiddlewareBefore = jest.fn();
 
@@ -46,14 +40,6 @@ jest.mock("../../src/models/CurrencyRequestModel", () => ({
 
 jest.mock("@middy/http-json-body-parser", () => () => ({
   before: mockHttpJsonBodyParser,
-}));
-
-jest.mock("../../src/middlewares/CatchError", () => ({
-  onError: mockCatchErrorOnError,
-}));
-
-jest.mock("@middy/validator", () => () => ({
-  before: mockValidatorBefore,
 }));
 
 jest.mock("../../src/middlewares/LogUser", () => ({
@@ -98,9 +84,7 @@ describe("currency - function lambda", () => {
     expect(resultJSON.query.to).toBe(currencyRequestSucessMock.to);
   });
 
-  test("When it missed the 'to' in body", () => {
-    mockGetExchangeCurrency.mockRejectedValueOnce(new Error("Test Error"));
-
+  test("When it missed the 'to' in body", async () => {
     const body = currencyRequestBadMock;
 
     const requestData: httpRequestData = {
@@ -108,13 +92,19 @@ describe("currency - function lambda", () => {
       requestContext: requestContextSuccessMock,
     };
 
-    expect(doRequest(functionName, requestData)).resolves.toHaveProperty(
-      "statusCode",
-      500
+    const response = await doRequest(functionName, requestData);
+
+    expect(response.statusCode).toBe(400);
+
+    const bodyJSON = JSON.parse(response.body);
+
+    expect(bodyJSON).toHaveProperty(
+      "message",
+      "must have required property to"
     );
   });
 
-  test("When the database don't response on time", () => {
+  test("When the database don't response on time", async () => {
     mockSaveCurrencyRequest.mockRejectedValueOnce(new Error("Test error"));
 
     const body = currencyRequestSucessMock;
@@ -124,9 +114,12 @@ describe("currency - function lambda", () => {
       requestContext: requestContextSuccessMock,
     };
 
-    expect(doRequest(functionName, requestData)).resolves.toHaveProperty(
-      "statusCode",
-      500
-    );
+    const result = await doRequest(functionName, requestData);
+
+    expect(result.statusCode).toBe(500);
+
+    const bodyJSON = JSON.parse(result.body);
+
+    expect(bodyJSON.message).toBe("Test error");
   });
 });
