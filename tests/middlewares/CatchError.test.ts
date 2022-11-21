@@ -24,6 +24,11 @@ describe("CatchError - middleware", () => {
     );
 
     expect(result).toHaveProperty("onError");
+    expect(result.onError?.statusCode).toBe(500);
+    
+    const body = JSON.parse(result.onError!.body);
+
+    expect(body.message).toBe(requestWithBody.error.message)
   });
 
   test("Should test to verify error without body on event", async () => {
@@ -34,5 +39,10 @@ describe("CatchError - middleware", () => {
     );
 
     expect(result).toHaveProperty("onError");
+    expect(result.onError?.statusCode).toBe(500);
+
+    const body = JSON.parse(result.onError!.body);
+
+    expect(body.message).toBe(requestWithoutBody.error.message);
   });
 });
