@@ -18,12 +18,6 @@ const mockSetPasswordToUser = jest
 
 const mockHttpJsonBodyParser = jest.fn();
 
-const mockCarchErrorOnError = jest.fn(() => ({
-  statusCode: 500,
-}));
-
-const mockValidator = jest.fn();
-
 const mockWriteLogger = jest.fn();
 
 jest.mock("../../src/services/CognitoService", () => ({
@@ -35,16 +29,6 @@ jest.mock("../../src/services/CognitoService", () => ({
 
 jest.mock("@middy/http-json-body-parser", () => () => ({
   before: mockHttpJsonBodyParser,
-}));
-
-jest.mock("../../src/middlewares/CatchError", () => ({
-  CatchError: {
-    onError: mockCarchErrorOnError,
-  },
-}));
-
-jest.mock("@middy/validator", () => () => ({
-  before: mockValidator,
 }));
 
 jest.mock("../../src/utils/Logger", () => ({
@@ -78,7 +62,11 @@ describe("signUp - function lambda", () => {
 
     const result = await doRequest(functionName, requestData);
 
-    expect(result.statusCode).toBe(500);
+    expect(result.statusCode).toBe(400);
+
+    const bodyJSON = JSON.parse(result.body);
+
+    expect(bodyJSON.message).toBe("must have required property password")
   });
 
   test("When it missed the email", async () => {
@@ -92,6 +80,10 @@ describe("signUp - function lambda", () => {
 
     const result = await doRequest(functionName, requestData);
 
-    expect(result.statusCode).toBe(500);
+    expect(result.statusCode).toBe(400);
+
+    const bodyJSON = JSON.parse(result.body);
+
+    expect(bodyJSON.message).toBe("must have required property email")
   });
 });
