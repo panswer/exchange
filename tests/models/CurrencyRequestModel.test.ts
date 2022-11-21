@@ -40,7 +40,7 @@ describe("CurrencyRequestModel - models", () => {
       AWSMock.restore(dynamodbDocumentClient);
     });
 
-    test("Should test to save a new currency request", () => {
+    test("Should save a new currency request", () => {
       AWSMock.mock(dynamodbDocumentClient, "put", (param, callback) => {
         callback(undefined, {});
       });
@@ -52,7 +52,7 @@ describe("CurrencyRequestModel - models", () => {
       ).resolves.toStrictEqual({});
     });
 
-    test("Should test to get all currencies request by username on session", () => {
+    test("Should get a list of currency request by username on session", () => {
       AWSMock.mock(dynamodbDocumentClient, "query", (param, callback) => {
         callback(undefined, {});
       });
