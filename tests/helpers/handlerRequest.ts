@@ -1,6 +1,10 @@
 import { APIGatewayProxyResult } from "aws-lambda";
 import _ from "lodash";
-import { httpRequestData, MiddlewareRequest, MiddlewareResponse } from "./interfaces/httpRequest";
+import {
+  httpRequestData,
+  MiddlewareRequest,
+  MiddlewareResponse,
+} from "./interfaces/httpRequest";
 
 const APP_ROOT = "../../src";
 
@@ -73,7 +77,7 @@ export const doRequest = async (
  *
  * @returns {Promise<MiddlewareResponse>}
  */
- export const runMiddleware = async (
+export const runMiddleware = async (
   middlewareName: string,
   callMethod: string,
   data?: MiddlewareRequest
@@ -95,7 +99,9 @@ export const doRequest = async (
     middlewaresMethods.map(async (methodName) => {
       const method = middleware[callMethod][methodName];
       if (typeof method === "function") {
-        result[methodName] = await method(dataRequest);
+        await method(dataRequest);
+
+        result[methodName] = dataRequest.response;
       }
     })
   );
