@@ -17,6 +17,8 @@ jest.mock("../../src/utils/Logger", () => ({
 
 describe("CatchError - middleware", () => {
   test("Should test to verify error with body on event", async () => {
+    const loggerCalled = mockWriteLogger.mock.calls.length
+
     const result = await runMiddleware(
       middlewareName,
       "CatchError",
@@ -28,10 +30,13 @@ describe("CatchError - middleware", () => {
     
     const body = JSON.parse(result.onError!.body);
 
-    expect(body.message).toBe(requestWithBody.error.message)
+    expect(body.message).toBe(requestWithBody.error.message);
+    expect(loggerCalled).not.toBe(mockWriteLogger.mock.calls.length)
   });
 
   test("Should test to verify error without body on event", async () => {
+    const loggerCalled = mockWriteLogger.mock.calls.length;
+
     const result = await runMiddleware(
       middlewareName,
       "CatchError",
@@ -44,5 +49,6 @@ describe("CatchError - middleware", () => {
     const body = JSON.parse(result.onError!.body);
 
     expect(body.message).toBe(requestWithoutBody.error.message);
+    expect(loggerCalled).not.toBe(mockWriteLogger.mock.calls.length)
   });
 });
