@@ -48,7 +48,7 @@ describe("DynamodbService - services", () => {
       AWSMock.restore(dynamodbDocumentClient);
     });
 
-    test("Should test to save a request", () => {
+    test("Should save a request", () => {
       AWSMock.mock(dynamodbDocumentClient, "put", (_param, callback) => {
         callback(undefined, {});
       });
@@ -59,7 +59,7 @@ describe("DynamodbService - services", () => {
       ).resolves.toStrictEqual({});
     });
 
-    test("Error to save a request", () => {
+    test("When there's an error to save", () => {
       AWSMock.mock(dynamodbDocumentClient, "put", (_param, callback) => {
         callback(dynamodbError);
       });
@@ -71,19 +71,19 @@ describe("DynamodbService - services", () => {
       ).rejects.toHaveProperty("message", dynamodbError.message);
     });
 
-    test("Get requests", () => {
+    test("Should get a list of request", () => {
       AWSMock.mock(dynamodbDocumentClient, "query", (_param, callback) => {
-        callback(undefined, {});
+        callback(undefined, []);
       });
 
       const dynamodbService = DynamodbService.getInstance();
 
       expect(
         dynamodbService.doQuery(paramsGoodQueryRequest)
-      ).resolves.toStrictEqual({});
+      ).resolves.toStrictEqual([]);
     });
 
-    test("Error to get requests", () => {
+    test("When there's an error to get requests", () => {
       AWSMock.mock(dynamodbDocumentClient, "query", (_param, callback) => {
         callback(dynamodbError);
       });
