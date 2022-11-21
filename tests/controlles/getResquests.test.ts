@@ -7,10 +7,6 @@ const mockGetRequestsByUsername = jest.fn().mockResolvedValue({});
 
 const mockLogUser = jest.fn();
 
-const mockCatchErrorOnError = jest.fn().mockImplementation(() => ({
-  statusCode: 500,
-}));
-
 const mockWriteLogger = jest.fn();
 
 jest.mock("../../src/models/CurrencyRequestModel", () => ({
@@ -23,10 +19,6 @@ jest.mock("../../src/middlewares/LogUser", () => ({
   LogUser: {
     before: mockLogUser,
   },
-}));
-
-jest.mock("../../src/middlewares/CatchError", () => ({
-  onError: mockCatchErrorOnError,
 }));
 
 jest.mock("../../src/utils/Logger", () => ({
