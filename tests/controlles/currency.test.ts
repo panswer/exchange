@@ -98,7 +98,7 @@ describe("currency - function lambda", () => {
     expect(resultJSON.query.to).toBe(currencyRequestSucessMock.to);
   });
 
-  test("Should test to get an error by request without 'to' field", () => {
+  test("When it missed the 'to' in body", () => {
     mockGetExchangeCurrency.mockRejectedValueOnce(new Error("Test Error"));
 
     const body = currencyRequestBadMock;
@@ -114,7 +114,7 @@ describe("currency - function lambda", () => {
     );
   });
 
-  test("Should test to get exchange rate from API but with an error to save the request in database", () => {
+  test("When the database don't response on time", () => {
     mockSaveCurrencyRequest.mockRejectedValueOnce(new Error("Test error"));
 
     const body = currencyRequestSucessMock;

@@ -64,7 +64,7 @@ describe("signIn - function lambda", () => {
     expect(response.success).toBe(true);
   });
 
-  test("Should test to get an error by request without password", async () => {
+  test("When it missed the password", async () => {
     mockValidator.mockRejectedValueOnce(new Error("Test error"));
     const body = signInRequestBad;
     const requestData: httpRequestData = {
