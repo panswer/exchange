@@ -54,7 +54,7 @@ jest.mock("../../src/utils/Logger", () => ({
 }));
 
 describe("signUp - function lambda", () => {
-  test("Should test to save a new user in cognito service", async () => {
+  test("Should test to save a new user success", async () => {
     const body = signInRequestSuccess;
 
     const requestData: httpRequestData = {
@@ -66,7 +66,7 @@ describe("signUp - function lambda", () => {
     expect(result.statusCode).toBe(201);
   });
 
-  test("Should test to give an error by request without password", async () => {
+  test("When it missed the password", async () => {
     mockCreateAnUser.mockRejectedValueOnce(new Error("Test error"));
 
     const body = signInRequestWithoutPassword;
@@ -81,7 +81,7 @@ describe("signUp - function lambda", () => {
     expect(result.statusCode).toBe(500);
   });
 
-  test("Should test to give an error by request without email", async () => {
+  test("When it missed the email", async () => {
     mockCreateAnUser.mockRejectedValueOnce(new Error("Test error"));
 
     const body = signInRequestWithoutEmail;

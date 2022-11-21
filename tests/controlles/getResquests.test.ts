@@ -38,7 +38,7 @@ jest.mock("../../src/utils/Logger", () => ({
 const functionName = "getResquests";
 
 describe("getRequests - function lambda", () => {
-  test("Should test to get the requests list", () => {
+  test("Should test to get the requests list success", () => {
     const requestData: httpRequestData = {
       requestContext: requestContextSuccessMock,
     };
