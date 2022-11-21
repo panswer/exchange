@@ -13,12 +13,6 @@ const mockSignInFlow = jest.fn().mockResolvedValue(signInResponseSuccess);
 
 const mockHttpJsonBodyParser = jest.fn();
 
-const mockCatchErrorOnError = jest.fn(() => ({
-  statusCode: 500,
-}));
-
-const mockValidator = jest.fn();
-
 const mockWriteLogger = jest.fn();
 
 jest.mock("../../src/services/CognitoService", () => ({
@@ -29,16 +23,6 @@ jest.mock("../../src/services/CognitoService", () => ({
 
 jest.mock("@middy/http-json-body-parser", () => () => ({
   before: mockHttpJsonBodyParser,
-}));
-
-jest.mock("../../src/middlewares/CatchError", () => ({
-  CatchError: {
-    onError: mockCatchErrorOnError,
-  },
-}));
-
-jest.mock("@middy/validator", () => () => ({
-  before: mockValidator,
 }));
 
 jest.mock("../../src/utils/Logger", () => ({
@@ -65,7 +49,6 @@ describe("signIn - function lambda", () => {
   });
 
   test("When it missed the password", async () => {
-    mockValidator.mockRejectedValueOnce(new Error("Test error"));
     const body = signInRequestBad;
     const requestData: httpRequestData = {
       body,
@@ -73,6 +56,10 @@ describe("signIn - function lambda", () => {
 
     const result = await doRequest(functionName, requestData);
 
-    expect(result.statusCode).toBe(500);
+    expect(result.statusCode).toBe(400);
+    
+    const bodyJSON = JSON.parse(result.body);
+
+    expect(bodyJSON.message).toBe('must have required property password')
   });
 });
