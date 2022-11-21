@@ -22,8 +22,6 @@ const mockHttpJsonBodyParser = jest.fn();
 
 const mockLogUserBefore = jest.fn();
 
-const mockCurrencyMiddlewareBefore = jest.fn();
-
 const mockWriteLogger = jest.fn();
 
 jest.mock("../../src/services/CurrencyApiService", () => ({
@@ -45,12 +43,6 @@ jest.mock("@middy/http-json-body-parser", () => () => ({
 jest.mock("../../src/middlewares/LogUser", () => ({
   LogUser: {
     before: mockLogUserBefore,
-  },
-}));
-
-jest.mock("../../src/middlewares/CurrencyMiddleware", () => ({
-  CurrencyMiddleware: {
-    before: mockCurrencyMiddlewareBefore,
   },
 }));
 
