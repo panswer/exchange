@@ -3,7 +3,6 @@ import { doRequest } from "../helpers/handlerRequest";
 
 import {
   currencyRequestSucessMock,
-  saveCurrencyRequestSuccessMock,
   currencyRequestBadMock,
 } from "../mocks/controllers/currencyMocks";
 import { getExchangeCurrencyResponseSuccessMock } from "../mocks/services/CurrencyApiService";
@@ -54,9 +53,7 @@ jest.mock("../../src/utils/Logger", () => ({
 
 describe("currency - function lambda", () => {
   test("Should test to get exchange data rate success", async () => {
-    mockSaveCurrencyRequest.mockImplementationOnce(
-      () => saveCurrencyRequestSuccessMock
-    );
+    mockSaveCurrencyRequest.mockImplementationOnce(() => ({}));
 
     const body = currencyRequestSucessMock;
 

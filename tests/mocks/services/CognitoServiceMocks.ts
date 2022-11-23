@@ -48,5 +48,3 @@ export const createAnUserSuccessMock: AdminCreateUserResponse = {
     UserStatus: "FORCE_CHANGE_PASSWORD",
   },
 };
-
-export const setPasswordToUserSuccessMock: AdminSetUserPasswordResponse = {};
