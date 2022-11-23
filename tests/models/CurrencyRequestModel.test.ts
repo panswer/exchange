@@ -2,7 +2,7 @@ import CurrencyRequestModel from "../../src/models/CurrencyRequestModel";
 
 import * as AWSMock from "aws-sdk-mock";
 
-import { requestDataSuccess } from "../mocks/models/CurrencyRequestModel";
+import { requestDataSuccessMock } from "../mocks/models/CurrencyRequestModel";
 
 const dynamodbDocumentClient = "DynamoDB.DocumentClient";
 
@@ -48,7 +48,7 @@ describe("CurrencyRequestModel - models", () => {
       const currencyRequestModel = CurrencyRequestModel.getInstance();
 
       expect(
-        currencyRequestModel.saveCurrencyRequest(requestDataSuccess)
+        currencyRequestModel.saveCurrencyRequest(requestDataSuccessMock)
       ).resolves.toStrictEqual({});
     });
 

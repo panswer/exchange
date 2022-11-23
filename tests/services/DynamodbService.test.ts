@@ -3,9 +3,9 @@ import * as AWSMock from "aws-sdk-mock";
 import DynamodbService from "../../src/services/DynamodbService";
 
 import {
-  paramsGoodPutRequest,
-  paramsGoodQueryRequest,
-  dynamodbError,
+  paramsGoodPutRequestMock,
+  paramsGoodQueryRequestMock,
+  dynamodbErrorMock,
 } from "../mocks/services/DynamodbService";
 
 process.env.currencyRequestTableName = "123";
@@ -55,20 +55,20 @@ describe("DynamodbService - services", () => {
       const dynamodbService = DynamodbService.getInstance();
 
       expect(
-        dynamodbService.saveItem(paramsGoodPutRequest)
+        dynamodbService.saveItem(paramsGoodPutRequestMock)
       ).resolves.toStrictEqual({});
     });
 
     test("When there's an error to save", () => {
       AWSMock.mock(dynamodbDocumentClient, "put", (_param, callback) => {
-        callback(dynamodbError);
+        callback(dynamodbErrorMock);
       });
 
       const dynamodbService = DynamodbService.getInstance();
 
       expect(
-        dynamodbService.saveItem(paramsGoodPutRequest)
-      ).rejects.toHaveProperty("message", dynamodbError.message);
+        dynamodbService.saveItem(paramsGoodPutRequestMock)
+      ).rejects.toHaveProperty("message", dynamodbErrorMock.message);
     });
 
     test("Should get a list of request", () => {
@@ -79,20 +79,20 @@ describe("DynamodbService - services", () => {
       const dynamodbService = DynamodbService.getInstance();
 
       expect(
-        dynamodbService.doQuery(paramsGoodQueryRequest)
+        dynamodbService.doQuery(paramsGoodQueryRequestMock)
       ).resolves.toStrictEqual([]);
     });
 
     test("When there's an error to get requests", () => {
       AWSMock.mock(dynamodbDocumentClient, "query", (_param, callback) => {
-        callback(dynamodbError);
+        callback(dynamodbErrorMock);
       });
 
       const dynamodbService = DynamodbService.getInstance();
 
       expect(
-        dynamodbService.doQuery(paramsGoodQueryRequest)
-      ).rejects.toHaveProperty("message", dynamodbError.message);
+        dynamodbService.doQuery(paramsGoodQueryRequestMock)
+      ).rejects.toHaveProperty("message", dynamodbErrorMock.message);
     });
   });
 });

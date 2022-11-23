@@ -1,13 +1,13 @@
 import { requestContextSuccessMock } from "../generic/request";
 
-export const middlewareGoodRequest = {
+export const middlewareGoodRequestMock = {
   event: {
     requestContext: requestContextSuccessMock,
   },
   context: {},
 };
 
-export const middlewareBadRequest = {
+export const middlewareBadRequestMock = {
   event: {
     requestContext: {
       authorizer: {},

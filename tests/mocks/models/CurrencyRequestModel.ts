@@ -1,4 +1,4 @@
-export const requestDataSuccess = {
+export const requestDataSuccessMock = {
     amount: 1,
     amountResult: 1,
     currencyFrom: "USD",

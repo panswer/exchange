@@ -1,7 +1,7 @@
 import { runMiddleware } from "../helpers/handlerRequest";
 import {
-  middlewareGoodRequest,
-  middlewareBadRequest,
+  middlewareGoodRequestMock,
+  middlewareBadRequestMock,
 } from "../mocks/middlewares/CurrencyMiddleware";
 
 const middlewareName = "CurrencyMiddleware";
@@ -9,13 +9,21 @@ const middlewareName = "CurrencyMiddleware";
 describe("CurrencyMiddleware - CurrencyMiddleware", () => {
   test("Should test about body with all data in request", () => {
     expect(
-      runMiddleware(middlewareName, "CurrencyMiddleware", middlewareGoodRequest)
+      runMiddleware(
+        middlewareName,
+        "CurrencyMiddleware",
+        middlewareGoodRequestMock
+      )
     ).resolves.toHaveProperty("before");
   });
 
   test("Should test about body without amount in request", () => {
     expect(
-      runMiddleware(middlewareName, "CurrencyMiddleware", middlewareBadRequest)
+      runMiddleware(
+        middlewareName,
+        "CurrencyMiddleware",
+        middlewareBadRequestMock
+      )
     ).rejects.toHaveProperty("message");
   });
 });

@@ -1,12 +1,14 @@
 import { httpRequestData } from "../helpers/interfaces/httpRequest";
 import { doRequest } from "../helpers/handlerRequest";
 import {
+  signInRequestSuccessMock,
+  signInRequestWithoutPasswordMock,
+  signInRequestWithoutEmailMock,
+} from "../mocks/controllers/signUpMocks";
+import {
   createAnUserSuccessMock,
   setPasswordToUserSuccessMock,
-  signInRequestSuccess,
-  signInRequestWithoutPassword,
-  signInRequestWithoutEmail,
-} from "../mocks/controllers/signUpMocks";
+} from "../mocks/services/CognitoServiceMocks";
 
 const functionName = "signUp";
 
@@ -39,7 +41,7 @@ jest.mock("../../src/utils/Logger", () => ({
 
 describe("signUp - function lambda", () => {
   test("Should test to save a new user success", async () => {
-    const body = signInRequestSuccess;
+    const body = signInRequestSuccessMock;
 
     const requestData: httpRequestData = {
       body,
@@ -53,8 +55,8 @@ describe("signUp - function lambda", () => {
   test("When it missed the password", async () => {
     mockCreateAnUser.mockRejectedValueOnce(new Error("Test error"));
 
-    const body = signInRequestWithoutPassword;
-    signInRequestWithoutEmail;
+    const body = signInRequestWithoutPasswordMock;
+    signInRequestWithoutEmailMock;
 
     const requestData: httpRequestData = {
       body,
@@ -66,13 +68,13 @@ describe("signUp - function lambda", () => {
 
     const bodyJSON = JSON.parse(result.body);
 
-    expect(bodyJSON.message).toBe("must have required property password")
+    expect(bodyJSON.message).toBe("must have required property password");
   });
 
   test("When it missed the email", async () => {
     mockCreateAnUser.mockRejectedValueOnce(new Error("Test error"));
 
-    const body = signInRequestWithoutEmail;
+    const body = signInRequestWithoutEmailMock;
 
     const requestData: httpRequestData = {
       body,
@@ -84,6 +86,6 @@ describe("signUp - function lambda", () => {
 
     const bodyJSON = JSON.parse(result.body);
 
-    expect(bodyJSON.message).toBe("must have required property email")
+    expect(bodyJSON.message).toBe("must have required property email");
   });
 });
