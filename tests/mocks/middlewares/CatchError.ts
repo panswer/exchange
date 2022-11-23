@@ -1,4 +1,4 @@
-export const requestWithBody = {
+export const requestWithBodyMock = {
   event: {
     body: {
       data: "test",
@@ -8,7 +8,7 @@ export const requestWithBody = {
   context: {},
 };
 
-export const requestWithoutBody = {
+export const requestWithoutBodyMock = {
   error: new Error("Test without body"),
   event: {},
   context: {},

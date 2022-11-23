@@ -1,7 +1,8 @@
 import { doRequest } from "../helpers/handlerRequest";
-import { SortBy } from "../../src/enums/DynamoDBSortEnum";
-import { httpRequestData } from "../helpers/interfaces/httpRequest";
-import { requestContextSuccessMock } from "../mocks/generic/request";
+import {
+  getRequestsSuccessMock,
+  getRequestsSortAscendSuccessMock,
+} from "../mocks/controllers/getRequestsMock";
 
 const mockGetRequestsByUsername = jest.fn().mockResolvedValue({});
 
@@ -31,25 +32,14 @@ const functionName = "getResquests";
 
 describe("getRequests - function lambda", () => {
   test("Should test to get the requests list success", () => {
-    const requestData: httpRequestData = {
-      requestContext: requestContextSuccessMock,
-    };
-    expect(doRequest(functionName, requestData)).resolves.toHaveProperty(
-      "statusCode",
-      200
-    );
+    expect(
+      doRequest(functionName, getRequestsSuccessMock)
+    ).resolves.toHaveProperty("statusCode", 200);
   });
 
   test("Should test to get the requests list sort by ascendent", () => {
-    const requestData: httpRequestData = {
-      queryStringParameters: {
-        sort: SortBy.asc,
-      },
-      requestContext: requestContextSuccessMock,
-    };
-    expect(doRequest(functionName, requestData)).resolves.toHaveProperty(
-      "statusCode",
-      200
-    );
+    expect(
+      doRequest(functionName, getRequestsSortAscendSuccessMock)
+    ).resolves.toHaveProperty("statusCode", 200);
   });
 });

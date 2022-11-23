@@ -1,6 +1,6 @@
 import CurrencyApiService from "../../src/services/CurrencyApiService";
 
-import { apiServiceGoodRequest } from "../mocks/services/CurrencyApiService";
+import { apiServiceGoodRequestMock } from "../mocks/services/CurrencyApiService";
 
 process.env.API_LAYER_KEY = "123";
 process.env.API_LAYER_URL = "123";
@@ -48,7 +48,7 @@ describe("CurrencyApiService - services", () => {
       const currencyApiService = CurrencyApiService.getInstance();
 
       expect(
-        currencyApiService.getExchangeCurrency(apiServiceGoodRequest)
+        currencyApiService.getExchangeCurrency(apiServiceGoodRequestMock)
       ).resolves.toStrictEqual({});
     });
 
@@ -57,7 +57,7 @@ describe("CurrencyApiService - services", () => {
       const currencyApiService = CurrencyApiService.getInstance();
 
       expect(
-        currencyApiService.getExchangeCurrency(apiServiceGoodRequest)
+        currencyApiService.getExchangeCurrency(apiServiceGoodRequestMock)
       ).rejects.toHaveProperty("message", "Test error");
     });
   });

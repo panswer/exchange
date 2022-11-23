@@ -2,8 +2,8 @@ import { runMiddleware } from "../helpers/handlerRequest";
 import { UserAttributesEnum } from "../../src/enums/AuthServiceEnum";
 
 import {
-  middlewareGoodRequest,
-  middlewareBadRequest,
+  middlewareGoodRequestMock,
+  middlewareBadRequestMock,
 } from "../mocks/middlewares/LogUser";
 
 const middlewareName = "LogUser";
@@ -35,13 +35,13 @@ jest.mock("../../src/utils/Logger", () => ({
 describe("LogUser - middleware", () => {
   test("Should test log success", () => {
     expect(
-      runMiddleware(middlewareName, "LogUser", middlewareGoodRequest)
+      runMiddleware(middlewareName, "LogUser", middlewareGoodRequestMock)
     ).resolves.toHaveProperty("before");
   });
 
   test("When it missed the email", async () => {
     expect(
-      runMiddleware(middlewareName, "LogUser", middlewareBadRequest)
+      runMiddleware(middlewareName, "LogUser", middlewareBadRequestMock)
     ).rejects.toHaveProperty("message", "Unauthoriced");
   });
 });

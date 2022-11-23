@@ -1,19 +1,8 @@
-export const signInResponseSuccess = {
-  ChallengeParameters: {},
-  AuthenticationResult: {
-    AccessToken: "aaa.aaa.aaa",
-    ExpiresIn: 3600,
-    TokenType: "Bearer",
-    RefreshToken: "bbb.bbb.bbb",
-    IdToken: "ccc.ccc.ccc",
-  },
-};
-
-export const signInRequestSuccess = {
+export const signInRequestSuccessMock = {
   email: "ricardo@mftech.io",
   password: "Ricardo.1",
 };
 
-export const signInRequestBad = {
+export const signInRequestBadMock = {
   email: "ricardo@mftech.io",
 }

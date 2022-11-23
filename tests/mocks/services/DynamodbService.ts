@@ -1,5 +1,5 @@
 import { AWSError } from "aws-sdk";
-export const paramsGoodPutRequest = {
+export const paramsGoodPutRequestMock = {
   data: {
     amount: 10,
     amountResult: 10,
@@ -12,7 +12,7 @@ export const paramsGoodPutRequest = {
   tableName: process.env.currencyRequestTableName!,
 };
 
-export const paramsGoodQueryRequest = {
+export const paramsGoodQueryRequestMock = {
   TableName: "123",
   IndexName: "123",
   KeyConditionExpression: "#username = :username",
@@ -25,7 +25,7 @@ export const paramsGoodQueryRequest = {
   ScanIndexForward: true,
 };
 
-export const dynamodbError: AWSError = {
+export const dynamodbErrorMock: AWSError = {
   code: "test",
   message: "Error test",
   name: "Unit test",

@@ -2,7 +2,7 @@ import CognitoService from "../../src/services/CognitoService";
 import AWSMock from "aws-sdk-mock";
 
 import {
-  getSessionTokenResponseSuccess,
+  getSessionTokenResponseSuccessMock,
 } from "../mocks/services/CognitoServiceMocks";
 
 process.env.REGION = "123";
@@ -108,7 +108,7 @@ describe("CognitoService - services", () => {
         "CognitoIdentityServiceProvider",
         "adminInitiateAuth",
         (param, callback) => {
-          callback(undefined, getSessionTokenResponseSuccess);
+          callback(undefined, getSessionTokenResponseSuccessMock);
         }
       );
 

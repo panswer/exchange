@@ -1,4 +1,4 @@
-export const middlewareGoodRequest = {
+export const middlewareGoodRequestMock = {
   event: {
     body: {
       from: "USD",
@@ -8,7 +8,7 @@ export const middlewareGoodRequest = {
   },
 };
 
-export const middlewareBadRequest = {
+export const middlewareBadRequestMock = {
   event: {
     body: {
       from: "USD",

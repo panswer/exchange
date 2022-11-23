@@ -3,10 +3,10 @@ import { doRequest } from "../helpers/handlerRequest";
 
 import {
   currencyRequestSucessMock,
-  getExchangeCurrencyResponseSuccessMock,
   saveCurrencyRequestSuccessMock,
   currencyRequestBadMock,
 } from "../mocks/controllers/currencyMocks";
+import { getExchangeCurrencyResponseSuccessMock } from "../mocks/services/CurrencyApiService";
 
 import { requestContextSuccessMock } from "../mocks/generic/request";
 

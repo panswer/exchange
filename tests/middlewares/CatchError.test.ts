@@ -1,8 +1,8 @@
 import { runMiddleware } from "../helpers/handlerRequest";
 
 import {
-  requestWithBody,
-  requestWithoutBody,
+  requestWithBodyMock,
+  requestWithoutBodyMock,
 } from "../mocks/middlewares/CatchError";
 
 const middlewareName = "CatchError";
@@ -22,7 +22,7 @@ describe("CatchError - middleware", () => {
     const result = await runMiddleware(
       middlewareName,
       "CatchError",
-      requestWithBody
+      requestWithBodyMock
     );
 
     expect(result).toHaveProperty("onError");
@@ -30,7 +30,7 @@ describe("CatchError - middleware", () => {
     
     const body = JSON.parse(result.onError!.body);
 
-    expect(body.message).toBe(requestWithBody.error.message);
+    expect(body.message).toBe(requestWithBodyMock.error.message);
     expect(loggerCalled).not.toBe(mockWriteLogger.mock.calls.length)
   });
 
@@ -40,7 +40,7 @@ describe("CatchError - middleware", () => {
     const result = await runMiddleware(
       middlewareName,
       "CatchError",
-      requestWithoutBody
+      requestWithoutBodyMock
     );
 
     expect(result).toHaveProperty("onError");
@@ -48,7 +48,7 @@ describe("CatchError - middleware", () => {
 
     const body = JSON.parse(result.onError!.body);
 
-    expect(body.message).toBe(requestWithoutBody.error.message);
+    expect(body.message).toBe(requestWithoutBodyMock.error.message);
     expect(loggerCalled).not.toBe(mockWriteLogger.mock.calls.length)
   });
 });

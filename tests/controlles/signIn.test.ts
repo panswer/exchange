@@ -2,14 +2,17 @@ import { httpRequestData } from "../helpers/interfaces/httpRequest";
 import { doRequest } from "../helpers/handlerRequest";
 
 import {
-  signInResponseSuccess,
-  signInRequestSuccess,
-  signInRequestBad,
+  signInRequestSuccessMock,
+  signInRequestBadMock,
 } from "../mocks/controllers/signInMocks";
+
+import { getSessionTokenResponseSuccessMock } from "../mocks/services/CognitoServiceMocks";
 
 const functionName = "signIn";
 
-const mockSignInFlow = jest.fn().mockResolvedValue(signInResponseSuccess);
+const mockSignInFlow = jest
+  .fn()
+  .mockResolvedValue(getSessionTokenResponseSuccessMock);
 
 const mockHttpJsonBodyParser = jest.fn();
 
@@ -33,7 +36,7 @@ jest.mock("../../src/utils/Logger", () => ({
 
 describe("signIn - function lambda", () => {
   test("Should test to get accesses token", async () => {
-    const body = signInRequestSuccess;
+    const body = signInRequestSuccessMock;
 
     const requestData: httpRequestData = {
       body,
@@ -49,7 +52,7 @@ describe("signIn - function lambda", () => {
   });
 
   test("When it missed the password", async () => {
-    const body = signInRequestBad;
+    const body = signInRequestBadMock;
     const requestData: httpRequestData = {
       body,
     };
@@ -57,9 +60,9 @@ describe("signIn - function lambda", () => {
     const result = await doRequest(functionName, requestData);
 
     expect(result.statusCode).toBe(400);
-    
+
     const bodyJSON = JSON.parse(result.body);
 
-    expect(bodyJSON.message).toBe('must have required property password')
+    expect(bodyJSON.message).toBe("must have required property password");
   });
 });
