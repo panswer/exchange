@@ -10,5 +10,3 @@ export const currencyRequestBadMock = {
   amount: 2,
   from: "USD",
 };
-
-export const saveCurrencyRequestSuccessMock = {};

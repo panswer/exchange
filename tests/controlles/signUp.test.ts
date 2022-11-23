@@ -5,18 +5,13 @@ import {
   signInRequestWithoutPasswordMock,
   signInRequestWithoutEmailMock,
 } from "../mocks/controllers/signUpMocks";
-import {
-  createAnUserSuccessMock,
-  setPasswordToUserSuccessMock,
-} from "../mocks/services/CognitoServiceMocks";
+import { createAnUserSuccessMock } from "../mocks/services/CognitoServiceMocks";
 
 const functionName = "signUp";
 
 const mockCreateAnUser = jest.fn().mockResolvedValue(createAnUserSuccessMock);
 
-const mockSetPasswordToUser = jest
-  .fn()
-  .mockResolvedValue(setPasswordToUserSuccessMock);
+const mockSetPasswordToUser = jest.fn().mockResolvedValue({});
 
 const mockHttpJsonBodyParser = jest.fn();
 
