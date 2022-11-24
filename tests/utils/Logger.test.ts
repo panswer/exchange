@@ -5,20 +5,20 @@ describe("Logger - utils", () => {
   beforeEach(() => {
     Logger.destroyInstance();
   });
-  test("Should test to get an instance", () => {
+  it("Should test to get an instance", () => {
     const logger = Logger.getInstance();
 
     expect(logger).toBeInstanceOf(Logger);
   });
 
-  test("Should test to get twice the same instance", () => {
+  it("Should test to get twice the same instance", () => {
     const logger = Logger.getInstance();
     const logger2 = Logger.getInstance();
 
     expect(logger).toBe(logger2);
   });
 
-  test("Should test to destroy the instance and get a new instance", () => {
+  it("Should test to destroy the instance and get a new instance", () => {
     const logger = Logger.getInstance();
     Logger.destroyInstance();
     const logger2 = Logger.getInstance();
@@ -26,7 +26,7 @@ describe("Logger - utils", () => {
     expect(logger).not.toBe(logger2);
   });
 
-  test("Should test to write log in dev stage", () => {
+  it("Should test to write log in dev stage", () => {
     process.env.stage = LoggerStage.DEV;
     const logger = Logger.getInstance();
 
@@ -45,7 +45,7 @@ describe("Logger - utils", () => {
     expect(hasError).toBe(false);
   });
 
-  test("Should test to write log in pre-sta stage", () => {
+  it("Should test to write log in pre-sta stage", () => {
     process.env.stage = LoggerStage.PRE_STA;
     const logger = Logger.getInstance();
 
@@ -63,7 +63,7 @@ describe("Logger - utils", () => {
     expect(hasError).toBe(false);
   });
 
-  test("Should test to write log in sta stage", () => {
+  it("Should test to write log in sta stage", () => {
     process.env.stage = LoggerStage.STA;
     const logger = Logger.getInstance();
 
@@ -82,7 +82,7 @@ describe("Logger - utils", () => {
     expect(hasError).toBe(false);
   });
 
-  test("Should test to write log with data", () => {
+  it("Should test to write log with data", () => {
     const logger = Logger.getInstance();
 
     let hasError = false;
