@@ -33,13 +33,13 @@ jest.mock("../../src/utils/Logger", () => ({
 }));
 
 describe("LogUser - middleware", () => {
-  test("Should test log success", () => {
+  it("Should test log success", () => {
     expect(
       runMiddleware(middlewareName, "LogUser", middlewareGoodRequestMock)
     ).resolves.toHaveProperty("before");
   });
 
-  test("When it missed the email", async () => {
+  it("When it missed the email", async () => {
     expect(
       runMiddleware(middlewareName, "LogUser", middlewareBadRequestMock)
     ).rejects.toHaveProperty("message", "Unauthoriced");
