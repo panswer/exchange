@@ -35,7 +35,7 @@ jest.mock("../../src/utils/Logger", () => ({
 }));
 
 describe("signIn - function lambda", () => {
-  test("Should test to get accesses token", async () => {
+  it("Should test to get accesses token", async () => {
     const body = signInRequestSuccessMock;
 
     const requestData: httpRequestData = {
@@ -51,7 +51,7 @@ describe("signIn - function lambda", () => {
     expect(response.success).toBe(true);
   });
 
-  test("When it missed the password", async () => {
+  it("When it missed the password", async () => {
     const body = signInRequestBadMock;
     const requestData: httpRequestData = {
       body,

@@ -31,13 +31,13 @@ jest.mock("../../src/utils/Logger", () => ({
 const functionName = "getResquests";
 
 describe("getRequests - function lambda", () => {
-  test("Should test to get the requests list success", () => {
+  it("Should test to get the requests list success", () => {
     expect(
       doRequest(functionName, getRequestsSuccessMock)
     ).resolves.toHaveProperty("statusCode", 200);
   });
 
-  test("Should test to get the requests list sort by ascendent", () => {
+  it("Should test to get the requests list sort by ascendent", () => {
     expect(
       doRequest(functionName, getRequestsSortAscendSuccessMock)
     ).resolves.toHaveProperty("statusCode", 200);

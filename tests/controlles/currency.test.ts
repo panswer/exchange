@@ -52,7 +52,7 @@ jest.mock("../../src/utils/Logger", () => ({
 }));
 
 describe("currency - function lambda", () => {
-  test("Should test to get exchange data rate success", async () => {
+  it("Should test to get exchange data rate success", async () => {
     mockSaveCurrencyRequest.mockImplementationOnce(() => ({}));
 
     const body = currencyRequestSucessMock;
@@ -73,7 +73,7 @@ describe("currency - function lambda", () => {
     expect(resultJSON.query.to).toBe(currencyRequestSucessMock.to);
   });
 
-  test("When it missed the 'to' in body", async () => {
+  it("When it missed the 'to' in body", async () => {
     const body = currencyRequestBadMock;
 
     const requestData: httpRequestData = {
@@ -93,7 +93,7 @@ describe("currency - function lambda", () => {
     );
   });
 
-  test("When the database don't response on time", async () => {
+  it("When the database don't response on time", async () => {
     mockSaveCurrencyRequest.mockRejectedValueOnce(new Error("Test error"));
 
     const body = currencyRequestSucessMock;
