@@ -35,7 +35,7 @@ jest.mock("../../src/utils/Logger", () => ({
 }));
 
 describe("signUp - function lambda", () => {
-  test("Should test to save a new user success", async () => {
+  it("Should test to save a new user success", async () => {
     const body = signInRequestSuccessMock;
 
     const requestData: httpRequestData = {
@@ -47,7 +47,7 @@ describe("signUp - function lambda", () => {
     expect(result.statusCode).toBe(201);
   });
 
-  test("When it missed the password", async () => {
+  it("When it missed the password", async () => {
     mockCreateAnUser.mockRejectedValueOnce(new Error("Test error"));
 
     const body = signInRequestWithoutPasswordMock;
@@ -66,7 +66,7 @@ describe("signUp - function lambda", () => {
     expect(bodyJSON.message).toBe("must have required property password");
   });
 
-  test("When it missed the email", async () => {
+  it("When it missed the email", async () => {
     mockCreateAnUser.mockRejectedValueOnce(new Error("Test error"));
 
     const body = signInRequestWithoutEmailMock;
