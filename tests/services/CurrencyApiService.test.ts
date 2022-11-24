@@ -15,20 +15,20 @@ jest.mock("axios", () => ({
 
 describe("CurrencyApiService - services", () => {
   describe("Should get and destroy an instance", () => {
-    test("Should test to get an instance", () => {
+    it("Should test to get an instance", () => {
       const currencyApiService = CurrencyApiService.getInstance();
 
       expect(currencyApiService).toBeInstanceOf(CurrencyApiService);
     });
 
-    test("Should test to get twice the same instance", () => {
+    it("Should test to get twice the same instance", () => {
       const currencyApiService = CurrencyApiService.getInstance();
       const currencyApiService2 = CurrencyApiService.getInstance();
 
       expect(currencyApiService).toBe(currencyApiService2);
     });
 
-    test("Should test to destroy and get a new instance", () => {
+    it("Should test to destroy and get a new instance", () => {
       const currencyApiService = CurrencyApiService.getInstance();
 
       CurrencyApiService.destroyInstance();
@@ -44,7 +44,7 @@ describe("CurrencyApiService - services", () => {
       CurrencyApiService.destroyInstance();
     });
 
-    test("Should get exchange currency success", () => {
+    it("Should get exchange currency success", () => {
       const currencyApiService = CurrencyApiService.getInstance();
 
       expect(
@@ -52,7 +52,7 @@ describe("CurrencyApiService - services", () => {
       ).resolves.toStrictEqual({});
     });
 
-    test("When the API didn't response", () => {
+    it("When the API didn't response", () => {
       mockGetFn.mockRejectedValueOnce(new Error("Test error"));
       const currencyApiService = CurrencyApiService.getInstance();
 
