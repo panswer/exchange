@@ -8,20 +8,20 @@ const dynamodbDocumentClient = "DynamoDB.DocumentClient";
 
 describe("CurrencyRequestModel - models", () => {
   describe("Should test to get and reset the class", () => {
-    test("Should test to get an instance of CurrencyRequestModel", () => {
+    it("Should test to get an instance of CurrencyRequestModel", () => {
       const currencyRequestModel = CurrencyRequestModel.getInstance();
 
       expect(currencyRequestModel).toBeInstanceOf(CurrencyRequestModel);
     });
 
-    test("Should test to get the same instance two times", () => {
+    it("Should test to get the same instance two times", () => {
       const currencyRequestModel1 = CurrencyRequestModel.getInstance();
       const currencyRequestModel2 = CurrencyRequestModel.getInstance();
 
       expect(currencyRequestModel1).toBe(currencyRequestModel2);
     });
 
-    test("Should test to get an instance and destroy it", () => {
+    it("Should test to get an instance and destroy it", () => {
       const currencyRequest1 = CurrencyRequestModel.getInstance();
 
       CurrencyRequestModel.destroyInstance();
@@ -40,7 +40,7 @@ describe("CurrencyRequestModel - models", () => {
       AWSMock.restore(dynamodbDocumentClient);
     });
 
-    test("Should save a new currency request", () => {
+    it("Should save a new currency request", () => {
       AWSMock.mock(dynamodbDocumentClient, "put", (param, callback) => {
         callback(undefined, {});
       });
@@ -52,7 +52,7 @@ describe("CurrencyRequestModel - models", () => {
       ).resolves.toStrictEqual({});
     });
 
-    test("Should get a list of currency request by username on session", () => {
+    it("Should get a list of currency request by username on session", () => {
       AWSMock.mock(dynamodbDocumentClient, "query", (param, callback) => {
         callback(undefined, {});
       });
