@@ -12,20 +12,20 @@ process.env.authFlow = "123";
 
 describe("CognitoService - services", () => {
   describe("Should test to get and reset the class", () => {
-    test("Should test to get a new instance", () => {
+    it("Should test to get a new instance", () => {
       const cognitoService = CognitoService.getInstance();
 
       expect(cognitoService).toBeInstanceOf(CognitoService);
     });
 
-    test("Should test to get two times the same instance of class", () => {
+    it("Should test to get two times the same instance of class", () => {
       const cognitoService = CognitoService.getInstance();
       const cognitoService2 = CognitoService.getInstance();
 
       expect(cognitoService).toBe(cognitoService2);
     });
 
-    test("Shoud test to destroy the instance", () => {
+    it("Shoud test to destroy the instance", () => {
       const cognitoService = CognitoService.getInstance();
 
       CognitoService.destroyInstance();
@@ -44,7 +44,7 @@ describe("CognitoService - services", () => {
       AWSMock.restore("CognitoIdentityServiceProvider");
     });
 
-    test("Should get an user success", () => {
+    it("Should get an user success", () => {
       AWSMock.mock(
         "CognitoIdentityServiceProvider",
         "adminGetUser",
@@ -64,7 +64,7 @@ describe("CognitoService - services", () => {
       );
     });
 
-    test("Should create a new user success", () => {
+    it("Should create a new user success", () => {
       AWSMock.mock(
         "CognitoIdentityServiceProvider",
         "adminCreateUser",
@@ -85,7 +85,7 @@ describe("CognitoService - services", () => {
       );
     });
 
-    test("Should set a new password by username success", () => {
+    it("Should set a new password by username success", () => {
       AWSMock.mock(
         "CognitoIdentityServiceProvider",
         "adminSetUserPassword",
@@ -103,7 +103,7 @@ describe("CognitoService - services", () => {
       ).resolves.toStrictEqual({});
     });
 
-    test("Should get a session token success", () => {
+    it("Should get a session token success", () => {
       AWSMock.mock(
         "CognitoIdentityServiceProvider",
         "adminInitiateAuth",
