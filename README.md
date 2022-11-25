@@ -24,3 +24,19 @@
 - "serverless-plugin-typescript"
 - "typescript"
 - "webpack-cli"
+
+## Scripts
+
+### Dependencies
+It's required to have serverless
+
+### Commands
+Run in development (localhost)
+```bash
+npm run dev
+```
+
+Deploy to server
+```bash
+sls deploy --stage [stage]
+```
